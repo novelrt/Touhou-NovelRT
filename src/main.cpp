@@ -2,8 +2,7 @@
 
 #include <NovelRT.h>
 
-int main(int argc, char *argv[])
-{
+int main(int argc, char *argv[]) {
   auto runner = NovelRT::NovelRunner(0, "TouhouNovelRT");
   runner.runNovel();
   return 0;
