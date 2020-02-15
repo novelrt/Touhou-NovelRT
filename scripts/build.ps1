@@ -109,6 +109,9 @@ try {
       }
     }
 
+    $VcpkgNovelRTBuildTreeDir = Join-Path -Path $VcpkgInstallDir -ChildPath "buildtrees/novelrt"
+    Create-Directory -Path $VcpkgNovelRTBuildTreeDir
+
     & $VcpkgExe install novelrt --triplet x64-windows --head
 
     if ($LastExitCode -ne 0) {
