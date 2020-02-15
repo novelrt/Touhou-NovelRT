@@ -176,6 +176,9 @@ if $ci; then
     fi
   fi
 
+  VcpkgNovelRTBuildTreeDir="$VcpkgInstallDir/buildtrees/novelrt"
+  CreateDirectory "$VcpkgNovelRTBuildTreeDir"
+
   "$VcpkgExe" install novelrt --head
   LASTEXITCODE=$?
 

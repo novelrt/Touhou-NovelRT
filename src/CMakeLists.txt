@@ -50,5 +50,5 @@ install(TARGETS TouhouNovelRT
 )
 
 install(DIRECTORY "$<TARGET_FILE_DIR:TouhouNovelRT>/Resources"
-        DESTINATION bin/Resources
+        DESTINATION bin
 )
