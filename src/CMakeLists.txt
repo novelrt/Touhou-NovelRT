@@ -26,6 +26,10 @@ file(GLOB_RECURSE NOVELRT_RESOURCE_INPUTS CONFIGURE_DEPENDS
   "${NovelRT_DIR}/../../Resources/Images/*.png"
   "${NovelRT_DIR}/../../Resources/Scripts/*.lua"
   "${NovelRT_DIR}/../../Resources/Shaders/*.glsl"
+  "${CMAKE_CURRENT_SOURCE_DIR}/Resources/Fonts/*.ttf"
+  "${CMAKE_CURRENT_SOURCE_DIR}/Resources/Images/*.png"
+  "${CMAKE_CURRENT_SOURCE_DIR}/Resources/Scripts/*.lua"
+  "${CMAKE_CURRENT_SOURCE_DIR}/Resources/Shaders/*.glsl"
 )
 source_group(TREE ${CMAKE_SOURCE_DIR} FILES ${NOVELRT_RESOURCE_INPUTS})
 
@@ -35,6 +39,7 @@ set(NOVELRT_RESOURCE_OUTPUTS
 
 add_custom_command(OUTPUT ${NOVELRT_RESOURCE_OUTPUTS}
   COMMAND ${CMAKE_COMMAND} -E copy_directory "${NovelRT_DIR}/../../Resources" $<TARGET_FILE_DIR:TouhouNovelRT>/Resources
+  COMMAND ${CMAKE_COMMAND} -E copy_directory "${CMAKE_CURRENT_SOURCE_DIR}/Resources" $<TARGET_FILE_DIR:TouhouNovelRT>/Resources
   COMMAND ${CMAKE_COMMAND} -E touch ${NOVELRT_RESOURCE_OUTPUTS}
   DEPENDS ${NOVELRT_RESOURCE_INPUTS}
 )
