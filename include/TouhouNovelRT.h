@@ -22,10 +22,11 @@ namespace TouhouNovelRT::Bullets {
 
 //Bullets Types
 #include "Bullets/Bullet.h"
+#include "Bullets/BulletFactory.h"
 #include "Bullets/Emitter.h"
 
 //Player Types
-#include "Player/Controller.h"
 #include "Player/Gun.h"
+#include "Player/Controller.h"
 
 #endif //!TOUHOUNOVELRT_H

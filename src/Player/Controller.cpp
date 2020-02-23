@@ -8,7 +8,8 @@ namespace TouhouNovelRT::Player {
   using namespace NovelRT::Maths;
   using namespace NovelRT::Utilities;
 
-  Controller::Controller(NovelRT::NovelRunner* runner, std::weak_ptr<InteractionService> input, std::shared_ptr<WorldObject> playerObject) noexcept :
+  Controller::Controller(const Gun& gun, NovelRT::NovelRunner* runner, std::weak_ptr<InteractionService> input, std::shared_ptr<WorldObject> playerObject) noexcept :
+    _gun(gun),
     _moveUpKey(KeyCode::UpArrow),
     _moveDownKey(KeyCode::DownArrow),
     _moveLeftKey(KeyCode::LeftArrow),
@@ -133,5 +134,9 @@ namespace TouhouNovelRT::Player {
   void Controller::combatUpdate(double delta, const std::shared_ptr<NovelRT::Input::InteractionService>& input) {
     auto shootState = input->getKeyState(_shootKey);
     auto spellcardState = input->getKeyState(_spellcardKey);
+
+    if (shootState == KeyState::KeyDown || shootState == KeyState::KeyDownHeld) {
+      _gun.shoot(GeoVector<float>(1.0f, 0.0f));
+    }
   }
 }

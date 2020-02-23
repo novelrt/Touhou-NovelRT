@@ -1,6 +1,6 @@
 // Copyright © Matt Jones and Contributors. Licensed under the MIT Licence (MIT). See LICENCE.md in the repository root for more information.
 
-#ifndef TOUHOUNOVELRT_BULLETS_EMITTER_H
+#ifndef TOUHOUNOVELRT_BULLETS_BULLET_H
 #define TOUHOUNOVELRT_BULLETS_BULLET_H
 
 #ifndef TOUHOUNOVELRT_H
@@ -8,32 +8,24 @@
 #endif
 
 namespace TouhouNovelRT::Bullets {
-  class Bullet {
+  class Bullet : public NovelRT::WorldObject {
   private:
-    NovelRT::Transform _transform;
     NovelRT::Maths::GeoVector<float> _direction;
     float _bulletSpeed;
-    bool _isInUse;
     std::weak_ptr<NovelRT::NovelRunner> _runner;
-    std::shared_ptr<NovelRT::WorldObject> _bulletObject;
+    std::unique_ptr<NovelRT::Graphics::RenderObject> _renderTarget;
+
+    void bulletUpdate(double delta) noexcept;
 
 
   public:
-    Bullet(std::weak_ptr<NovelRT::NovelRunner> runner, NovelRT::Transform startingTransform, std::shared_ptr<NovelRT::WorldObject> bulletObject, float bulletSpeed) noexcept;
-    Bullet() noexcept;
+    Bullet(float bulletSpeed, std::weak_ptr<NovelRT::NovelRunner> runner, std::unique_ptr<NovelRT::Graphics::RenderObject> renderTarget) noexcept;
 
-    inline bool getInUse() const noexcept {
-      return _isInUse;
-    }
-
-    inline bool setInUse(bool value) noexcept {
-      _isInUse = value;
-    }
-
-    NovelRT::Transform& getTransform() noexcept;
     inline void setDirection(const NovelRT::Maths::GeoVector<float>& value) noexcept {
       _direction = value;
     }
+
+    void executeObjectBehaviour() final;
   };
 }
 

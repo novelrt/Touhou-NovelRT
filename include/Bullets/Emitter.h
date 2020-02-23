@@ -10,18 +10,20 @@
 namespace TouhouNovelRT::Bullets {
   class Emitter {
   private:
-    std::vector<Bullet> _bulletPool;
+    std::vector<std::unique_ptr<Bullet>> _bulletPool;
+    NovelRT::Maths::GeoVector<float> _direction;
     float _bulletSpeed;
     float _cooldown;
     float _timeToNextBullet;
     std::weak_ptr<NovelRT::NovelRunner> _runner;
     std::shared_ptr<NovelRT::WorldObject> _muzzle;
-    Bullet _bulletPrefab;
+    BulletFactory _factory;
 
-    void updateEmitter(double delta);
+    void updateEmitter(double delta) noexcept;
   public:
-    Emitter(float bulletSpeed, float cooldown, std::weak_ptr<NovelRT::NovelRunner> runner, std::shared_ptr<NovelRT::WorldObject> muzzle, const Bullet& bulletPrefab) noexcept;
-    void shoot(NovelRT::Maths::GeoVector<float> direction);
+    Emitter(float bulletSpeed, float cooldown, std::weak_ptr<NovelRT::NovelRunner> runner, std::shared_ptr<NovelRT::WorldObject> muzzle, const BulletFactory& factory) noexcept;
+    void shoot(NovelRT::Maths::GeoVector<float> direction) noexcept;
+    void constructBullets() noexcept;
   };
 }
 

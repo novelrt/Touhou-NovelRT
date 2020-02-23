@@ -3,6 +3,35 @@
 #include <TouhouNovelRT.h>
 
 namespace TouhouNovelRT::Bullets {
-  Bullet::Bullet(std::weak_ptr<NovelRT::NovelRunner> runner, NovelRT::Transform startingTransform, std::shared_ptr<NovelRT::WorldObject> bulletObject, float bulletSpeed) noexcept {
+  using namespace NovelRT;
+  using namespace NovelRT::Maths;
+
+  Bullet::Bullet(float bulletSpeed, std::weak_ptr<NovelRT::NovelRunner> runner, std::unique_ptr<NovelRT::Graphics::RenderObject> renderTarget) noexcept :
+    NovelRT::WorldObject(renderTarget->getTransform(), renderTarget->getLayer()),
+    _direction(GeoVector<float>::zero()),
+    _bulletSpeed(bulletSpeed),
+    _runner(runner),
+    _renderTarget(std::move(renderTarget)) {
+    _runner.lock()->Update += [&](auto delta) { bulletUpdate(delta); };
+  }
+
+  void Bullet::bulletUpdate(double delta) noexcept {
+    if (!getActive()) {
+      return;
+    }
+
+    getTransform().setPosition(getTransform().getPosition() + _direction * _bulletSpeed * static_cast<float>(delta));
+  }
+
+  void Bullet::executeObjectBehaviour() {
+    auto& targetTransform = _renderTarget->getTransform();
+    if (_isDirty) {
+      _renderTarget->setLayer(getLayer());
+      targetTransform.setPosition(getTransform().getPosition());
+      targetTransform.setRotation(getTransform().getRotation());
+      targetTransform.setScale(getTransform().getScale());
+    }
+
+    _renderTarget->executeObjectBehaviour();
   }
 }
