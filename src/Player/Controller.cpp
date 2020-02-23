@@ -13,7 +13,7 @@ namespace TouhouNovelRT::Player {
     _moveDownKey(KeyCode::DownArrow),
     _moveLeftKey(KeyCode::LeftArrow),
     _moveRightKey(KeyCode::RightArrow),
-    _usePreciseMovementKey(KeyCode::Spacebar),
+    _usePreciseMovementKey(KeyCode::C),
     _shootKey(KeyCode::Z),
     _spellcardKey(KeyCode::X),
     _movementState(MovementState::Idle),
