@@ -12,8 +12,20 @@
 //game includes and typedefs
 namespace TouhouNovelRT::Player {
   typedef class Controller Controller;
+  typedef class Gun Gun;
 }
 
+namespace TouhouNovelRT::Bullets {
+  typedef class Bullet Bullet;
+  typedef class Emitter Emitter;
+}
+
+//Bullets Types
+#include "Bullets/Bullet.h"
+#include "Bullets/Emitter.h"
+
+//Player Types
 #include "Player/Controller.h"
+#include "Player/Gun.h"
 
 #endif //!TOUHOUNOVELRT_H
