@@ -8,12 +8,13 @@ int main(int argc, char *argv[]) {
   auto objPtr = std::shared_ptr<NovelRT::WorldObject>(std::move(runner->getRenderer().lock()->createBasicFillRect(transform, 1, NovelRT::Graphics::RGBAConfig(255, 255, 255, 255))));
   auto factory = TouhouNovelRT::Bullets::BulletFactory(runner, NovelRT::Maths::GeoVector<float>(100.0f, 100.0f), NovelRT::Graphics::RGBAConfig(0, 255, 0, 255), 2, true);
 
-  auto coll = std::vector<std::shared_ptr<TouhouNovelRT::Bullets::Emitter>> { std::make_shared<TouhouNovelRT::Bullets::Emitter>(1000.0f, 0.1f, runner, objPtr, bullet) };
+  auto coll = std::vector<std::shared_ptr<TouhouNovelRT::Bullets::Emitter>> { std::make_shared<TouhouNovelRT::Bullets::Emitter>(1000.0f, 0.1f, runner, objPtr, factory) };
   auto bla = TouhouNovelRT::Player::Gun(coll);
   auto controller = TouhouNovelRT::Player::Controller(bla, runner.get(), runner->getInteractionService(), objPtr);
 
   runner->SceneConstructionRequested += [&] {
     objPtr->executeObjectBehaviour();
+    controller.getGunHandler().invokeSceneConstruction();
   };
 
   return runner->runNovel();

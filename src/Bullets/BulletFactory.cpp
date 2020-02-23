@@ -28,6 +28,6 @@ namespace TouhouNovelRT::Bullets {
     auto rendererPtr = _runner.lock()->getRenderer().lock();
     auto transform = NovelRT::Transform(startingPosition, 0.0f, _scale);
     auto ptr = (_isFill) ? std::unique_ptr<NovelRT::Graphics::RenderObject>(std::move(rendererPtr->createBasicFillRect(transform, _layer, _colourConfig))) : std::unique_ptr<NovelRT::Graphics::RenderObject>(std::move(rendererPtr->createImageRect(transform, _layer, _colourConfig)));
-    return std::make_unique<Bullet>(speed, _runner, ptr);
+    return std::make_unique<Bullet>(speed, _runner, std::move(ptr));
   }
 }

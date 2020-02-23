@@ -29,6 +29,10 @@ namespace TouhouNovelRT::Player {
 
   public:
     Controller(const Gun& gun, NovelRT::NovelRunner* runner, std::weak_ptr<NovelRT::Input::InteractionService> input, std::shared_ptr<NovelRT::WorldObject> playerObject) noexcept;
+
+    inline Gun& getGunHandler() {
+      return _gun;
+    }
   };
 }
 

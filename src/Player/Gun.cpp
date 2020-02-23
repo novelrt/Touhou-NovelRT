@@ -13,5 +13,11 @@ namespace TouhouNovelRT::Player {
     }
   }
 
+  void Gun::invokeSceneConstruction() const {
+    for (auto& emitter : _emitters) {
+      emitter->constructBullets();
+    }
+  }
+
 
 }

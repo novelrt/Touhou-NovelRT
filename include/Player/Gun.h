@@ -15,6 +15,7 @@ namespace TouhouNovelRT::Player {
   public:
     Gun(const std::vector<std::shared_ptr<Bullets::Emitter>>& emitters) noexcept;
     void shoot(const NovelRT::Maths::GeoVector<float>& direction) noexcept;
+    void invokeSceneConstruction() const;
   };
 }
 
