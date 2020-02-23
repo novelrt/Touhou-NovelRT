@@ -37,6 +37,7 @@ namespace TouhouNovelRT::Player {
     auto moveDownState = input->getKeyState(_moveDownKey);
     auto moveLeftState = input->getKeyState(_moveLeftKey);
     auto moveRightState = input->getKeyState(_moveRightKey);
+    auto precisionMove = input->getKeyState(_usePreciseMovementKey);
 
     //all these if elses aren't needed, neither is the movement state enum - HOWEVER, this does show off NovelRT's bitflags feature. :D
     if (moveUpState == KeyState::KeyDown || moveUpState == KeyState::KeyDownHeld) {
@@ -69,8 +70,8 @@ namespace TouhouNovelRT::Player {
 
     auto inputVector = GeoVector<float>::zero();
 
-    auto applyUp = [&] { inputVector.setY(1.0f); };
-    auto applyDown = [&] { inputVector.setY(-1.0f); };
+    auto applyUp = [&] { inputVector.setY(-1.0f); };
+    auto applyDown = [&] { inputVector.setY(1.0f); };
     auto applyLeft = [&] { inputVector.setX(-1.0f); };
     auto applyRight = [&] { inputVector.setX(1.0f); };
 
@@ -118,13 +119,15 @@ namespace TouhouNovelRT::Player {
       break;
     }
 
-    inputVector = inputVector.getNormalised();
-
     if (inputVector == GeoVector<float>::zero()) {
       return;
     }
 
-    _playerObject->getTransform().setPosition(_playerObject->getTransform().getPosition() + (inputVector * (5.0f * static_cast<float>(delta))));
+    inputVector = inputVector.getNormalised();
+
+    auto moveSpeed = (precisionMove == KeyState::KeyDown || precisionMove == KeyState::KeyDownHeld) ? 250.0f : 600.0f;
+
+    _playerObject->getTransform().setPosition(_playerObject->getTransform().getPosition() + (inputVector * (moveSpeed * static_cast<float>(delta))));
   }
 
   void Controller::combatUpdate(double delta, const std::shared_ptr<NovelRT::Input::InteractionService>& input) {
