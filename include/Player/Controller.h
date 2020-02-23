@@ -9,8 +9,25 @@
 
 namespace TouhouNovelRT::Player {
   class Controller {
+  private:
+    NovelRT::Input::KeyCode _moveUpKey;
+    NovelRT::Input::KeyCode _moveDownKey;
+    NovelRT::Input::KeyCode _moveLeftKey;
+    NovelRT::Input::KeyCode _moveRightKey;
+    NovelRT::Input::KeyCode _usePreciseMovementKey;
+    NovelRT::Input::KeyCode _shootKey;
+    NovelRT::Input::KeyCode _spellcardKey;
+    MovementState _movementState;
+
+    std::weak_ptr<NovelRT::Input::InteractionService> _input;
+    std::shared_ptr<NovelRT::WorldObject> _playerObject;
+
+    void controllerUpdate(double delta);
+    void movementUpdate(double delta, const std::shared_ptr<NovelRT::Input::InteractionService>& input);
+    void combatUpdate(double delta, const std::shared_ptr<NovelRT::Input::InteractionService>& input);
+
   public:
-    Controller(std::weak_ptr<NovelRT::Input::InteractionService> input) noexcept;
+    Controller(NovelRT::NovelRunner* runner, std::weak_ptr<NovelRT::Input::InteractionService> input, std::shared_ptr<NovelRT::WorldObject> playerObject) noexcept;
   };
 }
 

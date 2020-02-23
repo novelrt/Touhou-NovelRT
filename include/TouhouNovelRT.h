@@ -6,6 +6,8 @@
 //dependencies
 #include <NovelRT.h>
 
+//value types
+#include "Player/MovementState.h"
 
 //game includes and typedefs
 namespace TouhouNovelRT::Player {
@@ -14,4 +16,4 @@ namespace TouhouNovelRT::Player {
 
 #include "Player/Controller.h"
 
-#endif
+#endif //!TOUHOUNOVELRT_H
