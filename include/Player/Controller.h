@@ -10,7 +10,7 @@
 namespace TouhouNovelRT::Player {
   class Controller {
   public:
-    virtual void someTestAbstractMethodThatWontLiveBeyondThisPr() = 0;
+    Controller(std::weak_ptr<NovelRT::Input::InteractionService> input) noexcept;
   };
 }
 
