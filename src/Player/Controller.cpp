@@ -138,5 +138,9 @@ namespace TouhouNovelRT::Player {
     if (shootState == KeyState::KeyDown || shootState == KeyState::KeyDownHeld) {
       _gun.shoot(GeoVector<float>(1.0f, 0.0f));
     }
+
+    if (spellcardState == KeyState::KeyDown || spellcardState == KeyState::KeyDownHeld) {
+      _gun.shootSpellcard();
+    }
   }
 }

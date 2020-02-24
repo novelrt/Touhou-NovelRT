@@ -22,7 +22,7 @@ namespace TouhouNovelRT::Bullets {
     void updateEmitter(double delta) noexcept;
   public:
     Emitter(float bulletSpeed, float cooldown, std::weak_ptr<NovelRT::NovelRunner> runner, std::shared_ptr<NovelRT::WorldObject> muzzle, const BulletFactory& factory) noexcept;
-    void shoot(NovelRT::Maths::GeoVector<float> direction) noexcept;
+    bool tryShoot(NovelRT::Maths::GeoVector<float> direction) noexcept;
     void constructBullets() noexcept;
   };
 }

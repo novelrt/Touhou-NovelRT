@@ -24,6 +24,8 @@ namespace TouhouNovelRT::Bullets {
 #include "Bullets/Bullet.h"
 #include "Bullets/BulletFactory.h"
 #include "Bullets/Emitter.h"
+#include "Bullets/PlayerSpellcard.h"
+#include "Bullets/ReimuSpellcard.h"
 
 //Player Types
 #include "Player/Gun.h"

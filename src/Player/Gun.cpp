@@ -3,20 +3,27 @@
 #include <TouhouNovelRT.h>
 
 namespace TouhouNovelRT::Player {
-  Gun::Gun(const std::vector<std::shared_ptr<Bullets::Emitter>>& emitters) noexcept :
-    _emitters(emitters) {
+  Gun::Gun(const std::vector<std::shared_ptr<Bullets::Emitter>>& emitters, std::shared_ptr<Bullets::PlayerSpellcard> spellcardEmitter) noexcept :
+    _emitters(emitters),
+  _spellcardEmitter(spellcardEmitter) {
   }
 
   void Gun::shoot(const NovelRT::Maths::GeoVector<float>& direction) noexcept {
     for (auto& emitter : _emitters) {
-      emitter->shoot(direction);
+      emitter->tryShoot(direction);
     }
+  }
+
+  void Gun::shootSpellcard() noexcept {
+    _spellcardEmitter->activate();
   }
 
   void Gun::invokeSceneConstruction() const {
     for (auto& emitter : _emitters) {
       emitter->constructBullets();
     }
+
+    _spellcardEmitter->constructSpellcard();
   }
 
 

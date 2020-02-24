@@ -26,9 +26,9 @@ namespace TouhouNovelRT::Bullets {
     }
   }
 
-  void Emitter::shoot(NovelRT::Maths::GeoVector<float> direction) noexcept {
+  bool Emitter::tryShoot(NovelRT::Maths::GeoVector<float> direction) noexcept {
     if (_timeToNextBullet > 0.0f) {
-      return;
+      return false;
     }
 
     _timeToNextBullet = _cooldown;
@@ -42,7 +42,7 @@ namespace TouhouNovelRT::Bullets {
       bullet->getTransform().setRotation(_muzzle->getTransform().getRotation());
       _bulletPool.back()->setDirection(direction);
       bullet->setActive(true);
-      return;
+      return true;
     }
 
     _bulletPool.push_back(std::move(_factory.create(_muzzle->getTransform().getPosition(), _direction, _bulletSpeed)));
@@ -50,6 +50,8 @@ namespace TouhouNovelRT::Bullets {
     _bulletPool.back()->getTransform().setRotation(_muzzle->getTransform().getRotation());
     _bulletPool.back()->setDirection(direction);
     _bulletPool.back()->setActive(true);
+
+    return true;
   }
 
   void Emitter::constructBullets() noexcept {

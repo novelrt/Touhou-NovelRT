@@ -12,17 +12,24 @@ namespace TouhouNovelRT::Bullets {
   private:
     NovelRT::Graphics::RGBAConfig _colourConfig;
     bool _isFill;
-    int _layer;
+    int _layer; //I know this is inconsistent but the layer parameter on rects is int, not int32_t, so I did this for consistency. - Ruby <3
+    int32_t _textureCounter;
     NovelRT::Maths::GeoVector<float> _scale;
     std::weak_ptr<NovelRT::NovelRunner> _runner;
 
-    std::shared_ptr<NovelRT::Graphics::Texture> _texture;
+    std::vector<std::shared_ptr<NovelRT::Graphics::Texture>> _textureVector;
+
 
   public:
     BulletFactory(std::weak_ptr<NovelRT::NovelRunner> runner, NovelRT::Maths::GeoVector<float> scale, NovelRT::Graphics::RGBAConfig colourConfig, int layer, bool isFill = false, const std::string& textureFile = std::string("")) noexcept;
     BulletFactory(std::weak_ptr<NovelRT::NovelRunner> runner, NovelRT::Maths::GeoVector<float> scale, NovelRT::Graphics::RGBAConfig colourConfig, int layer, std::shared_ptr<NovelRT::Graphics::Texture> texture) noexcept;
+    BulletFactory(std::weak_ptr<NovelRT::NovelRunner> runner, NovelRT::Maths::GeoVector<float> scale, NovelRT::Graphics::RGBAConfig colourConfig, int layer, const std::vector<std::string>& bulletTextures) noexcept;
 
     std::unique_ptr<Bullet> create(const NovelRT::Maths::GeoVector<float>& startingPosition, const NovelRT::Maths::GeoVector<float>& direction, float speed) noexcept;
+
+    inline void setIsFill(bool value) noexcept {
+      _isFill = value;
+    }
   };
 }
 
