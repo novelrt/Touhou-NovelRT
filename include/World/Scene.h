@@ -14,12 +14,14 @@ namespace TouhouNovelRT::World {
     const float _screenWidth = 1920;
     const float _screenHeight = 1080;
     bool _isScrolling;
-    std::vector<NovelRT::WorldObject> _sceneObjects;
-    NovelRT::Transform _backgroundTransform;
-    NovelRT::Transform _secondBkgdTransform;
+    std::vector<std::unique_ptr<NovelRT::WorldObject>> _sceneObjects;
+    NovelRT::Transform _bkgdTransformOne;
+    NovelRT::Transform _bkgdTransformTwo;
+    NovelRT::Transform _bkgdTransformThree;
     NovelRT::Transform _borderTransform;
-    std::unique_ptr<NovelRT::Graphics::ImageRect> _backgroundImage;
-    std::unique_ptr<NovelRT::Graphics::ImageRect> _secondBkgdImage;
+    std::unique_ptr<NovelRT::Graphics::ImageRect> _bkgdImageOne;
+    std::unique_ptr<NovelRT::Graphics::ImageRect> _bkgdImageTwo;
+    std::unique_ptr<NovelRT::Graphics::ImageRect> _bkgdImageThree;
     std::unique_ptr<NovelRT::Graphics::ImageRect> _borderImage;
 
     void updateBackground(double delta);
@@ -27,6 +29,8 @@ namespace TouhouNovelRT::World {
   public:
     Scene(std::weak_ptr<NovelRT::NovelRunner> runner, std::string backgroundFile, std::string borderFile, bool isScrolling);
     void drawObjects();
+    void addToScene(std::unique_ptr<NovelRT::WorldObject> object);
+    void removeFromScene(std::unique_ptr<NovelRT::WorldObject> object);
   };
 }
 
