@@ -58,7 +58,7 @@ namespace TouhouNovelRT::World {
   }
 
   void Scene::addToScene(std::unique_ptr<NovelRT::WorldObject> object) {
-    _sceneObjects.push_back(object);
+    _sceneObjects.push_back(std::move(object));
   }
 
   void Scene::removeFromScene(std::unique_ptr<NovelRT::WorldObject> object) {

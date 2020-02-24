@@ -20,7 +20,7 @@ int main(int argc, char *argv[]) {
   auto coll = std::vector<std::shared_ptr<TouhouNovelRT::Bullets::Emitter>> { std::make_shared<TouhouNovelRT::Bullets::Emitter>(1800.0f, 0.05f, runner, objPtr, factory) };
   auto playerGun = TouhouNovelRT::Player::Gun(coll, std::shared_ptr<TouhouNovelRT::Bullets::PlayerSpellcard>(reimuSpellcard));
   auto controller = TouhouNovelRT::Player::Controller(playerGun, runner.get(), runner->getInteractionService(), objPtr);
-  auto sceneOne = TouhouNovelRT::World::Scene(runner, bkPath.string(), borderPath.string(), false);
+  auto sceneOne = TouhouNovelRT::World::Scene(runner, bkPath.string(), borderPath.string(), true);
 
   runner->SceneConstructionRequested += [&] {
     objPtr->executeObjectBehaviour();
