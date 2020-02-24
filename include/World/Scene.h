@@ -11,21 +11,21 @@ namespace TouhouNovelRT::World {
   class Scene {
   private:
     std::weak_ptr<NovelRT::NovelRunner> _runner;
-    float _screenWidth;
-    float _screenHeight;
+    const float _screenWidth = 1920;
+    const float _screenHeight = 1080;
     bool _isScrolling;
     std::vector<NovelRT::WorldObject> _sceneObjects;
     NovelRT::Transform _backgroundTransform;
-    NovelRT::Transform _backgroundDoubleTransform;
+    NovelRT::Transform _secondBkgdTransform;
     NovelRT::Transform _borderTransform;
     std::unique_ptr<NovelRT::Graphics::ImageRect> _backgroundImage;
-    std::unique_ptr<NovelRT::Graphics::ImageRect> _backgroundDoubleImage;
+    std::unique_ptr<NovelRT::Graphics::ImageRect> _secondBkgdImage;
     std::unique_ptr<NovelRT::Graphics::ImageRect> _borderImage;
-    
 
+    void updateBackground(double delta);
 
   public:
-    Scene(std::weak_ptr<NovelRT::NovelRunner> runner, std::string backgroundFile, std::string borderFile);
+    Scene(std::weak_ptr<NovelRT::NovelRunner> runner, std::string backgroundFile, std::string borderFile, bool isScrolling);
     void drawObjects();
   };
 }
