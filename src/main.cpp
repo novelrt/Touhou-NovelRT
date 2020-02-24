@@ -3,6 +3,13 @@
 #include <TouhouNovelRT.h>
 
 int main(int argc, char *argv[]) {
+  std::filesystem::path executableDirPath = NovelRT::Utilities::Misc::getExecutableDirPath();
+  std::filesystem::path resourcesDirPath = executableDirPath / "Resources";
+  std::filesystem::path imagesDirPath = resourcesDirPath / "Images";
+
+  auto borderPath = (imagesDirPath / "background/default.png");
+  auto bkPath = imagesDirPath / "background/default_spell1.png";
+
   auto runner = std::make_shared<NovelRT::NovelRunner>(0, "TouhouNovelRT");
   auto transform = NovelRT::Transform(NovelRT::Maths::GeoVector<float>(1920.0f / 2.0f, 1080.0f / 2.0f), 0.0f, NovelRT::Maths::GeoVector<float>::one() * 50.0f);
   auto objPtr = std::shared_ptr<NovelRT::WorldObject>(std::move(runner->getRenderer().lock()->createBasicFillRect(transform, 1, NovelRT::Graphics::RGBAConfig(255, 255, 255, 255))));
@@ -13,10 +20,12 @@ int main(int argc, char *argv[]) {
   auto coll = std::vector<std::shared_ptr<TouhouNovelRT::Bullets::Emitter>> { std::make_shared<TouhouNovelRT::Bullets::Emitter>(1800.0f, 0.05f, runner, objPtr, factory) };
   auto playerGun = TouhouNovelRT::Player::Gun(coll, std::shared_ptr<TouhouNovelRT::Bullets::PlayerSpellcard>(reimuSpellcard));
   auto controller = TouhouNovelRT::Player::Controller(playerGun, runner.get(), runner->getInteractionService(), objPtr);
+  auto sceneOne = TouhouNovelRT::World::Scene(runner, bkPath.string(), borderPath.string());
 
   runner->SceneConstructionRequested += [&] {
     objPtr->executeObjectBehaviour();
     controller.getGunHandler().invokeSceneConstruction();
+    sceneOne.drawObjects();
   };
 
   return runner->runNovel();
