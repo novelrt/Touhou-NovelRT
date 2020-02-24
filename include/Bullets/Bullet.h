@@ -12,10 +12,7 @@ namespace TouhouNovelRT::Bullets {
   private:
     NovelRT::Maths::GeoVector<float> _direction;
     float _bulletSpeed;
-    std::weak_ptr<NovelRT::NovelRunner> _runner;
     std::unique_ptr<NovelRT::Graphics::RenderObject> _renderTarget;
-
-    void bulletUpdate(double delta) noexcept;
 
 
   public:
@@ -26,6 +23,8 @@ namespace TouhouNovelRT::Bullets {
     }
 
     void executeObjectBehaviour() final;
+
+    void bulletUpdate(double delta) noexcept;
   };
 }
 

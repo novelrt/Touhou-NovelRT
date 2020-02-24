@@ -19,7 +19,10 @@ namespace TouhouNovelRT::Bullets {
     for (auto& bullet : _bulletPool) {
       if (bullet->getTransform().getPosition().getX() > 1920.0f || bullet->getTransform().getPosition().getX() < 0.0f || bullet->getTransform().getPosition().getY() > 1080.0f || bullet->getTransform().getPosition().getY() < 0.0f) {
         bullet->setActive(false);
+        continue;
       }
+
+      bullet->bulletUpdate(delta);
     }
   }
 

@@ -10,9 +10,7 @@ namespace TouhouNovelRT::Bullets {
     NovelRT::WorldObject(renderTarget->getTransform(), renderTarget->getLayer()),
     _direction(GeoVector<float>::zero()),
     _bulletSpeed(bulletSpeed),
-    _runner(runner),
     _renderTarget(std::move(renderTarget)) {
-    _runner.lock()->Update += [&](auto delta) { bulletUpdate(delta); };
   }
 
   void Bullet::bulletUpdate(double delta) noexcept {
