@@ -65,6 +65,7 @@ namespace TouhouNovelRT::World {
     for (auto it = _sceneObjects.begin(); it != _sceneObjects.end(); it++) {
       if (*it == object) {
         _sceneObjects.erase(it);
+        return;
       }
     }
   }
