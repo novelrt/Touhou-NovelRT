@@ -6,12 +6,16 @@ int main(int argc, char *argv[]) {
   std::filesystem::path executableDirPath = NovelRT::Utilities::Misc::getExecutableDirPath();
   std::filesystem::path resourcesDirPath = executableDirPath / "Resources";
   std::filesystem::path imagesDirPath = resourcesDirPath / "Images";
+  std::filesystem::path soundsDirPath = resourcesDirPath / "Sounds";
 
   auto borderPath = (imagesDirPath / "background/default.png");
   auto bkPath = imagesDirPath / "background/default_spell1.png";
 
   auto runner = std::make_shared<NovelRT::NovelRunner>(0, "TouhouNovelRT");
   auto scene = std::make_unique<TouhouNovelRT::SceneGraph::SimpleScene>(runner, bkPath.string(), borderPath.string(), true);
+  auto audio = runner->getAudioService();
+  audio.lock()->initializeAudio();
+  auto bgm = audio.lock()->loadMusic((soundsDirPath / "marisa.ogg").string());
 
   auto playerTransform = NovelRT::Transform(TouhouNovelRT::SceneGraph::SimpleScene::WorldOrigin, 0.0f, NovelRT::Maths::GeoVector<float>(0.0f, 0.0f));
   auto playerNode = std::make_shared<TouhouNovelRT::SceneGraph::PlayerNode>(runner, std::shared_ptr(std::move(runner->getRenderer().lock()->createImageRect(playerTransform, 3, NovelRT::Graphics::RGBAConfig(255, 255, 255, 255)))));
@@ -47,7 +51,7 @@ int main(int argc, char *argv[]) {
   auto bossSpellcard = std::make_shared<TouhouNovelRT::Bullets::BossSpellcard>(runner, TouhouNovelRT::Bullets::BossSpellcardBulletStageData(std::vector<TouhouNovelRT::Bullets::BulletWaveData>{TouhouNovelRT::Bullets::BulletWaveData(bossBulletMap, 1) }, playerBulletEmitter));
 
   // bossSpellcard.activate();
-
+  audio.lock()->playMusic(bgm, -1);
   runner->SceneConstructionRequested += [&]() {
     scene->drawObjects();
     playerController.getGunHandler().invokeSceneConstruction();
