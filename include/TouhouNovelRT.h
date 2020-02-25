@@ -20,7 +20,6 @@ namespace TouhouNovelRT::Bullets {
   typedef class Bullet Bullet;
   typedef class Emitter Emitter;
   typedef class PlayerSpellcard PlayerSpellcard;
-  typedef class ReimuSpellcard ReimuSpellcard;
 }
 
 namespace TouhouNovelRT::Enemy {
@@ -33,7 +32,6 @@ namespace TouhouNovelRT::Player {
 }
 
 namespace TouhouNovelRT::SceneGraph {
-  typedef class PlayerNode PlayerNode;
   typedef class SimpleScene SimpleScene;
 }
 
