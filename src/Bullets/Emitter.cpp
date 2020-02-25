@@ -46,7 +46,6 @@ namespace TouhouNovelRT::Bullets {
     }
 
     _bulletPool.push_back(std::move(_factory.create(position, direction, bulletSpeed)));
-    _bulletPool.back()->getTransform().setPosition(position);
     _bulletPool.back()->getTransform().setRotation(rotation);
     _bulletPool.back()->setDirection(direction);
     _bulletPool.back()->setActive(true);

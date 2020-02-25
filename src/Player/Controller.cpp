@@ -120,15 +120,12 @@ namespace TouhouNovelRT::Player {
       break;
     }
 
-    if (inputVector == GeoVector<float>::zero()) {
-      return;
+    if (inputVector != GeoVector<float>::zero()) {
+      inputVector = inputVector.getNormalised();
     }
 
-    inputVector = inputVector.getNormalised();
-
     auto moveSpeed = (precisionMove == KeyState::KeyDown || precisionMove == KeyState::KeyDownHeld) ? 250.0f : 600.0f;
-
-    _physicsNode->setPosition(_physicsNode->getPosition() + (inputVector * (moveSpeed * static_cast<float>(delta))));
+    _physicsNode->addPosition((inputVector * (moveSpeed * static_cast<float>(delta))));
   }
 
   void Controller::combatUpdate(double delta, const std::shared_ptr<NovelRT::Input::InteractionService>& input) {

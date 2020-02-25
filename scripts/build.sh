@@ -161,7 +161,7 @@ if $ci; then
   fi
 
   pushd "$VcpkgInstallDir"
-  git checkout novelrt
+  git checkout touhou
   popd
 
   VcpkgExe="$VcpkgInstallDir/vcpkg"

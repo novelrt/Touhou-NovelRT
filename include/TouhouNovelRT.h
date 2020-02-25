@@ -48,7 +48,7 @@ namespace TouhouNovelRT::SceneGraph {
 #include "Bullets/BulletFactory.h"
 #include "Bullets/Emitter.h"
 #include "Bullets/PlayerSpellcard.h"
-#include "Bullets/ReimuSpellcard.h"
+#include "Bullets/MarisaSpellcard.h"
 
 //Enemy Types
 #include "Enemy/BossEnemy.h"

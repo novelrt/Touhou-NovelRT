@@ -6,10 +6,10 @@ namespace TouhouNovelRT::Bullets {
   using namespace NovelRT;
   using namespace NovelRT::Maths;
 
-  ReimuSpellcard::ReimuSpellcard(std::shared_ptr<Emitter> spellcardEmitter) noexcept :
+  MarisaSpellcard::MarisaSpellcard(std::shared_ptr<Emitter> spellcardEmitter) noexcept :
     PlayerSpellcard(spellcardEmitter) {}
 
-  void ReimuSpellcard::activate() noexcept {
+  void MarisaSpellcard::activate() noexcept {
     if (getCardCount() > 0 && _spellcardEmitter->tryShoot(GeoVector<float>(0.0f, 1.0f))) {
       decrementCardCount();
     }
