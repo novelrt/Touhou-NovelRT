@@ -25,6 +25,7 @@ namespace TouhouNovelRT::Bullets {
 
     void activate() noexcept;
     void deactivate() noexcept;
+    void constructBullets() noexcept;
   };
 }
 
