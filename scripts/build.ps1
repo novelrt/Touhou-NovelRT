@@ -96,7 +96,7 @@ try {
     }
 
     Push-Location -Path $VcpkgInstallDir
-    & git checkout novelrt
+    & git checkout touhou
     Pop-Location
 
     $VcpkgExe = Join-Path -Path $VcpkgInstallDir -ChildPath "vcpkg.exe"
