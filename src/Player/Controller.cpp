@@ -8,7 +8,7 @@ namespace TouhouNovelRT::Player {
   using namespace NovelRT::Maths;
   using namespace NovelRT::Utilities;
 
-  Controller::Controller(const Gun& gun, NovelRT::NovelRunner* runner, std::weak_ptr<InteractionService> input, std::shared_ptr<WorldObject> playerObject) noexcept :
+  Controller::Controller(const Gun& gun, NovelRT::NovelRunner* runner, std::weak_ptr<InteractionService> input, std::shared_ptr<TouhouNovelRT::SceneGraph::PhysicsNode> physicsNode) noexcept :
     _gun(gun),
     _moveUpKey(KeyCode::UpArrow),
     _moveDownKey(KeyCode::DownArrow),
@@ -19,7 +19,7 @@ namespace TouhouNovelRT::Player {
     _spellcardKey(KeyCode::X),
     _movementState(MovementState::Idle),
     _input(input),
-    _playerObject(playerObject) {
+    _physicsNode(physicsNode) {
     runner->Update += [&](auto delta) { controllerUpdate(delta); };
   }
 
@@ -128,7 +128,7 @@ namespace TouhouNovelRT::Player {
 
     auto moveSpeed = (precisionMove == KeyState::KeyDown || precisionMove == KeyState::KeyDownHeld) ? 250.0f : 600.0f;
 
-    _playerObject->getTransform().setPosition(_playerObject->getTransform().getPosition() + (inputVector * (moveSpeed * static_cast<float>(delta))));
+    _physicsNode->setPosition(_physicsNode->getPosition() + (inputVector * (moveSpeed * static_cast<float>(delta))));
   }
 
   void Controller::combatUpdate(double delta, const std::shared_ptr<NovelRT::Input::InteractionService>& input) {

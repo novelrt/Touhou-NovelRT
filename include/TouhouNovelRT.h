@@ -20,6 +20,15 @@ namespace TouhouNovelRT::Bullets {
   typedef class Emitter Emitter;
 }
 
+namespace TouhouNovelRT::SceneGraph {
+  typedef class PlayerNode PlayerNode;
+  typedef class SimpleScene SimpleScene;
+}
+
+//SceneGraph Types
+#include "SceneGraph/SimpleScene.h"
+#include "SceneGraph/PlayerNode.h"
+
 //Bullets Types
 #include "Bullets/Bullet.h"
 #include "Bullets/BulletFactory.h"
@@ -30,5 +39,8 @@ namespace TouhouNovelRT::Bullets {
 //Player Types
 #include "Player/Gun.h"
 #include "Player/Controller.h"
+
+//World Types
+#include "World/Scene.h"
 
 #endif //!TOUHOUNOVELRT_H

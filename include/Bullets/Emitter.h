@@ -16,12 +16,12 @@ namespace TouhouNovelRT::Bullets {
     float _cooldown;
     float _timeToNextBullet;
     std::weak_ptr<NovelRT::NovelRunner> _runner;
-    std::shared_ptr<NovelRT::WorldObject> _muzzle;
+    std::shared_ptr<TouhouNovelRT::SceneGraph::PhysicsNode> _muzzle;
     BulletFactory _factory;
 
     void updateEmitter(double delta) noexcept;
   public:
-    Emitter(float bulletSpeed, float cooldown, std::weak_ptr<NovelRT::NovelRunner> runner, std::shared_ptr<NovelRT::WorldObject> muzzle, const BulletFactory& factory) noexcept;
+    Emitter(float bulletSpeed, float cooldown, std::weak_ptr<NovelRT::NovelRunner> runner, std::shared_ptr<TouhouNovelRT::SceneGraph::PhysicsNode> muzzle, const BulletFactory& factory) noexcept;
     bool tryShoot(NovelRT::Maths::GeoVector<float> direction) noexcept;
     void constructBullets() noexcept;
   };
