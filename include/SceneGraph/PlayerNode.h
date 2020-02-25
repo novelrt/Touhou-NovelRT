@@ -34,9 +34,12 @@ namespace TouhouNovelRT::SceneGraph {
     }
 
     void setPosition(const NovelRT::Maths::GeoVector<float>& position) override {
+      auto yOff = (SceneGraph::SimpleScene::WorldSize.getY() - ((SceneGraph::SimpleScene::WorldSize.getY() / 3.0f) * 2.25f)) / 2.0f;
       auto size = getRenderObject()->getTransform().getScale() / 2.0f;
+
       auto xPos = std::clamp(position.getX(), size.getX(), SceneGraph::SimpleScene::WorldSize.getX() - size.getX());
-      auto yPos = std::clamp(position.getY(), size.getY(), SceneGraph::SimpleScene::WorldSize.getY() - size.getY());
+      auto yPos = std::clamp(position.getY(), size.getY() + yOff, SceneGraph::SimpleScene::WorldSize.getY() - yOff - size.getY());
+
       getRenderObject()->getTransform().getPosition() = NovelRT::Maths::GeoVector(xPos, yPos);
     }
   };

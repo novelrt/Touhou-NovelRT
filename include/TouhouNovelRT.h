@@ -40,7 +40,4 @@ namespace TouhouNovelRT::SceneGraph {
 #include "Player/Gun.h"
 #include "Player/Controller.h"
 
-//World Types
-#include "World/Scene.h"
-
 #endif //!TOUHOUNOVELRT_H
