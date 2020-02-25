@@ -8,6 +8,17 @@
 
 //value types
 #include "Player/MovementState.h"
+#include "Bullets/BulletInstanceConfig.h"
+#include "Bullets/BulletWaveData.h"
+
+namespace TouhouNovelRT::Bullets {
+  typedef class BossSpellcard BossSpellcard;
+  typedef class BossSpellcardBulletStageData BossSpellcardBulletStageData;
+  typedef class Bullet Bullet;
+  typedef class Emitter Emitter;
+  typedef class PlayerSpellcard PlayerSpellcard;
+  typedef class ReimuSpellcard ReimuSpellcard;
+}
 
 //game includes and typedefs
 namespace TouhouNovelRT::Player {
@@ -15,12 +26,9 @@ namespace TouhouNovelRT::Player {
   typedef class Gun Gun;
 }
 
-namespace TouhouNovelRT::Bullets {
-  typedef class Bullet Bullet;
-  typedef class Emitter Emitter;
-}
-
 //Bullets Types
+#include "Bullets/BossSpellcard.h"
+#include "Bullets/BossSpellcardBulletStageData.h"
 #include "Bullets/Bullet.h"
 #include "Bullets/BulletFactory.h"
 #include "Bullets/Emitter.h"
