@@ -10,6 +10,10 @@ namespace TouhouNovelRT::Bullets {
       }
 
       auto index = _wave++;
+      if (_stage.getWaveData().size() <= index) {
+        index = 0;
+      }
+
       _delta = _stage.getWaveData().at(index).getTimeToNextState();
       auto& map = _stage.getWaveData().at(index).getInstanceData();
       auto& emitters = _stage.getEmitters();
@@ -19,6 +23,7 @@ namespace TouhouNovelRT::Bullets {
         }
       }
     }
+    _delta -= delta;
   }
 
   BossSpellcard::BossSpellcard(std::weak_ptr<NovelRT::NovelRunner> runner, const BossSpellcardBulletStageData& stage) noexcept :
