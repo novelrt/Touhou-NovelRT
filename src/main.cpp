@@ -3,6 +3,13 @@
 #include <TouhouNovelRT.h>
 
 int main(int argc, char *argv[]) {
+  std::filesystem::path executableDirPath = NovelRT::Utilities::Misc::getExecutableDirPath();
+  std::filesystem::path resourcesDirPath = executableDirPath / "Resources";
+  std::filesystem::path imagesDirPath = resourcesDirPath / "Images";
+
+  auto borderPath = (imagesDirPath / "background/default.png");
+  auto bkPath = imagesDirPath / "background/default_spell1.png";
+
   auto runner = std::make_shared<NovelRT::NovelRunner>(0, "TouhouNovelRT");
   auto scene = std::make_unique<TouhouNovelRT::SceneGraph::SimpleScene>();
 
@@ -15,11 +22,13 @@ int main(int argc, char *argv[]) {
   auto reimuSpellcard = std::make_shared<TouhouNovelRT::Bullets::ReimuSpellcard>(std::make_shared<TouhouNovelRT::Bullets::Emitter>(400.0f, 2.0f, runner, playerNode, spellcardFactory));
   auto coll = std::vector<std::shared_ptr<TouhouNovelRT::Bullets::Emitter>> { std::make_shared<TouhouNovelRT::Bullets::Emitter>(1800.0f, 0.05f, runner, playerNode, factory) };
   auto playerGun = TouhouNovelRT::Player::Gun(coll, std::shared_ptr<TouhouNovelRT::Bullets::PlayerSpellcard>(reimuSpellcard));
+  auto sceneOne = TouhouNovelRT::World::Scene(runner, bkPath.string(), borderPath.string(), true);
   auto controller = TouhouNovelRT::Player::Controller(playerGun, runner.get(), runner->getInteractionService(), playerNode);
 
   runner->SceneConstructionRequested += [&] {
     playerNode->getRenderObject()->executeObjectBehaviour();
     controller.getGunHandler().invokeSceneConstruction();
+    sceneOne.drawObjects();
   };
 
   return runner->runNovel();
