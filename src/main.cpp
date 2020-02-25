@@ -25,6 +25,9 @@ int main(int argc, char *argv[]) {
   auto playerGun = TouhouNovelRT::Player::Gun(coll, std::shared_ptr<TouhouNovelRT::Bullets::PlayerSpellcard>(reimuSpellcard));
   auto controller = TouhouNovelRT::Player::Controller(playerGun, runner.get(), runner->getInteractionService(), playerNode);
 
+  auto bossSpellcard = TouhouNovelRT::Bullets::BossSpellcard(runner, TouhouNovelRT::Bullets::BossSpellcardBulletStageData(std::vector<TouhouNovelRT::Bullets::BulletWaveData>{TouhouNovelRT::Bullets::BulletWaveData(std::map<size_t, std::vector<TouhouNovelRT::Bullets::BulletInstanceConfig>>{ {0, std::vector<TouhouNovelRT::Bullets::BulletInstanceConfig>{ TouhouNovelRT::Bullets::BulletInstanceConfig(NovelRT::Maths::GeoVector<float>(0.0f, 1.0f), NovelRT::Maths::GeoVector<float>(200.0f, 200.0f), 0.0f, 100.0f)  }} }, 1) }, coll));
+  bossSpellcard.activate();
+
   runner->SceneConstructionRequested += [&] {
     controller.getGunHandler().invokeSceneConstruction();
     scene->drawObjects();

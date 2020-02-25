@@ -33,10 +33,6 @@ namespace TouhouNovelRT::Bullets {
     inline void setCardCount(int32_t value) noexcept {
       _cardsLeft = value;
     }
-
-
-
-    
   };
 }
 
