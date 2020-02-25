@@ -10,16 +10,28 @@
 namespace TouhouNovelRT::SceneGraph {
   class SimpleScene : public NovelRT::SceneGraph::Scene {
   private:
+    std::weak_ptr<NovelRT::NovelRunner> _runner;
     std::shared_ptr<NovelRT::Maths::QuadTree> _quadTree;
+    NovelRT::Transform _bkgdTransformOne;
+    NovelRT::Transform _bkgdTransformTwo;
+    NovelRT::Transform _bkgdTransformThree;
+    NovelRT::Transform _borderTransform;
+    std::unique_ptr<NovelRT::Graphics::ImageRect> _bkgdImageOne;
+    std::unique_ptr<NovelRT::Graphics::ImageRect> _bkgdImageTwo;
+    std::unique_ptr<NovelRT::Graphics::ImageRect> _bkgdImageThree;
+    std::unique_ptr<NovelRT::Graphics::ImageRect> _borderImage;
+    bool _isScrolling;
+
+    void updateBackground(double delta);
 
   public:
     inline static const NovelRT::Maths::GeoVector<float> WorldSize = NovelRT::Maths::GeoVector(1920.0f, 1080.0f);
     inline static const NovelRT::Maths::GeoVector<float> WorldOrigin = WorldSize / 2.0f;
     inline static const NovelRT::Maths::GeoBounds WorldBounds = NovelRT::Maths::GeoBounds(WorldOrigin, WorldSize, 0.0f);
 
-    SimpleScene() :
-      _quadTree(std::make_shared<NovelRT::Maths::QuadTree>(WorldBounds)){
-    }
+    SimpleScene(std::weak_ptr<NovelRT::NovelRunner> runner, std::string backgroundFile, std::string borderFile, bool isScrolling);
+
+    void drawObjects();
   };
 }
 

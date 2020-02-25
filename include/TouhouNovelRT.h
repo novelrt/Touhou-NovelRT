@@ -3,21 +3,33 @@
 #ifndef TOUHOUNOVELRT_H
 #define TOUHOUNOVELRT_H
 
+#include <limits>
+
 //dependencies
 #include <NovelRT.h>
 
 //value types
 #include "Player/MovementState.h"
+#include "Bullets/BulletInstanceConfig.h"
+#include "Bullets/BulletWaveData.h"
 
 //game includes and typedefs
+namespace TouhouNovelRT::Bullets {
+  typedef class BossSpellcard BossSpellcard;
+  typedef class BossSpellcardBulletStageData BossSpellcardBulletStageData;
+  typedef class Bullet Bullet;
+  typedef class Emitter Emitter;
+  typedef class PlayerSpellcard PlayerSpellcard;
+  typedef class ReimuSpellcard ReimuSpellcard;
+}
+
+namespace TouhouNovelRT::Enemy {
+  typedef class BossEnemy BossEnemy;
+}
+
 namespace TouhouNovelRT::Player {
   typedef class Controller Controller;
   typedef class Gun Gun;
-}
-
-namespace TouhouNovelRT::Bullets {
-  typedef class Bullet Bullet;
-  typedef class Emitter Emitter;
 }
 
 namespace TouhouNovelRT::SceneGraph {
@@ -30,17 +42,19 @@ namespace TouhouNovelRT::SceneGraph {
 #include "SceneGraph/PlayerNode.h"
 
 //Bullets Types
+#include "Bullets/BossSpellcardBulletStageData.h"
+#include "Bullets/BossSpellcard.h"
 #include "Bullets/Bullet.h"
 #include "Bullets/BulletFactory.h"
 #include "Bullets/Emitter.h"
 #include "Bullets/PlayerSpellcard.h"
 #include "Bullets/ReimuSpellcard.h"
 
+//Enemy Types
+#include "Enemy/BossEnemy.h"
+
 //Player Types
 #include "Player/Gun.h"
 #include "Player/Controller.h"
-
-//World Types
-#include "World/Scene.h"
 
 #endif //!TOUHOUNOVELRT_H
