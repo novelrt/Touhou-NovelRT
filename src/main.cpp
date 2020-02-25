@@ -24,7 +24,12 @@ int main(int argc, char *argv[]) {
   auto playerGun = TouhouNovelRT::Player::Gun(playerBulletEmitter, std::shared_ptr<TouhouNovelRT::Bullets::MarisaSpellcard>(playerSpellcard));
   auto playerController = TouhouNovelRT::Player::Controller(playerGun, runner.get(), runner->getInteractionService(), playerNode);
 
-  auto bulletMap = std::map<size_t, std::vector<TouhouNovelRT::Bullets::BulletInstanceConfig>>{
+  auto bossTransform = NovelRT::Transform(TouhouNovelRT::SceneGraph::SimpleScene::WorldOrigin, 0.0f, NovelRT::Maths::GeoVector<float>(0.0f, 0.0f));
+  bossTransform.getPosition().setX(bossTransform.getPosition().getX() + (TouhouNovelRT::SceneGraph::SimpleScene::WorldSize.getX() / 3));
+  auto bossNode = std::make_shared<TouhouNovelRT::SceneGraph::BossNode>(runner, std::shared_ptr(std::move(runner->getRenderer().lock()->createImageRect(bossTransform, 3, NovelRT::Graphics::RGBAConfig(255, 255, 255, 255)))));
+  scene->insert(bossNode);
+
+  auto bossBulletMap = std::map<size_t, std::vector<TouhouNovelRT::Bullets::BulletInstanceConfig>>{
       {
         0, std::vector<TouhouNovelRT::Bullets::BulletInstanceConfig>{
           TouhouNovelRT::Bullets::BulletInstanceConfig(NovelRT::Maths::GeoVector<float>(0.0f, 1.0f), NovelRT::Maths::GeoVector<float>(200.0f, 200.0f), 0.0f, 100.0f)
@@ -36,8 +41,11 @@ int main(int argc, char *argv[]) {
         }
       },
   };
+  auto bossBulletFactory = TouhouNovelRT::Bullets::BulletFactory(runner, NovelRT::Maths::GeoVector<float>(36.0f, 36.0f), NovelRT::Graphics::RGBAConfig(255, 255, 255, 255), 2, false, (imagesDirPath / "bullet" / "circle" / "small-20.png").string());
+  auto bossBulletEmitter = std::vector<std::shared_ptr<TouhouNovelRT::Bullets::Emitter>>{ std::make_shared<TouhouNovelRT::Bullets::Emitter>(TouhouNovelRT::SceneGraph::SimpleScene::WorldSize.getX() * 0.75f, 1.0f / 15.0f, runner, bossNode, bossBulletFactory) };
+  auto bossSpellcardFactory = TouhouNovelRT::Bullets::BulletFactory(runner, NovelRT::Maths::GeoVector<float>(36.0f, 36.0f), NovelRT::Graphics::RGBAConfig(255, 255, 255, 255), 2, std::vector<std::string>());
+  auto bossSpellcard = std::make_shared<TouhouNovelRT::Bullets::BossSpellcard>(runner, TouhouNovelRT::Bullets::BossSpellcardBulletStageData(std::vector<TouhouNovelRT::Bullets::BulletWaveData>{TouhouNovelRT::Bullets::BulletWaveData(bossBulletMap, 1) }, playerBulletEmitter));
 
-  // auto bossSpellcard = TouhouNovelRT::Bullets::BossSpellcard(runner, TouhouNovelRT::Bullets::BossSpellcardBulletStageData(std::vector<TouhouNovelRT::Bullets::BulletWaveData>{TouhouNovelRT::Bullets::BulletWaveData(bulletMap, 1) }, playerBulletEmitter));
   // bossSpellcard.activate();
 
   runner->SceneConstructionRequested += [&]() {
