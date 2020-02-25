@@ -20,7 +20,7 @@ namespace TouhouNovelRT::Player {
     NovelRT::Input::KeyCode _spellcardKey;
     MovementState _movementState;
     std::weak_ptr<NovelRT::Input::InteractionService> _input;
-    std::shared_ptr<NovelRT::WorldObject> _playerObject;
+    std::shared_ptr<TouhouNovelRT::SceneGraph::PhysicsNode> _physicsNode;
     
 
     void controllerUpdate(double delta);
@@ -28,7 +28,7 @@ namespace TouhouNovelRT::Player {
     void combatUpdate(double delta, const std::shared_ptr<NovelRT::Input::InteractionService>& input);
 
   public:
-    Controller(const Gun& gun, NovelRT::NovelRunner* runner, std::weak_ptr<NovelRT::Input::InteractionService> input, std::shared_ptr<NovelRT::WorldObject> playerObject) noexcept;
+    Controller(const Gun& gun, NovelRT::NovelRunner* runner, std::weak_ptr<NovelRT::Input::InteractionService> input, std::shared_ptr<TouhouNovelRT::SceneGraph::PhysicsNode> physicsNode) noexcept;
 
     inline Gun& getGunHandler() {
       return _gun;

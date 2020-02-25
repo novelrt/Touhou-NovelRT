@@ -12,18 +12,23 @@ namespace TouhouNovelRT::Bullets {
   using namespace NovelRT::Maths;
   class BulletInstanceConfig {
   private:
+    GeoVector<float> _direction;
     GeoVector<float> _startingPosition;
-    GeoVector<float> _startingRotation;
+    float _startingRotation;
     float _speed;
 
   public:
-    BulletInstanceConfig(const GeoVector<float>& startingPosition, const GeoVector<float>& startingRotation, float speed) noexcept;
+    BulletInstanceConfig(const GeoVector<float>& direction, const GeoVector<float>& startingPosition, float startingRotation, float speed) noexcept;
+
+    inline const GeoVector<float>& getDirection() const noexcept {
+      return _direction;
+    }
 
     inline const GeoVector<float>& getPosition() const noexcept {
       return _startingPosition;
     }
 
-    inline const GeoVector<float>& getRotation() const noexcept {
+    inline float getRotation() const noexcept {
       return _startingRotation;
     }
 

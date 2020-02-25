@@ -9,17 +9,22 @@
 
 namespace TouhouNovelRT::Bullets {
   class BossSpellcard {
-  protected:
+  private:
+    NovelRT::Utilities::EventHandler<double> _updateDelegate;
     double _delta;
-    std::vector<BossSpellcardBulletStageData> _stages;
+    BossSpellcardBulletStageData _stage;
     std::weak_ptr<NovelRT::NovelRunner> _runner;
-    size_t _stage;
+    size_t _wave = std::numeric_limits<size_t>::max();
+    bool _active;
+
+    void updateSpellcard(double delta) noexcept;
+
 
   public:
-    BossSpellcard(std::weak_ptr<NovelRT::NovelRunner> runner, const std::vector<BossSpellcardBulletStageData>& stages) noexcept;
+    BossSpellcard(std::weak_ptr<NovelRT::NovelRunner> runner, const BossSpellcardBulletStageData& stage) noexcept;
 
-    virtual void activate() noexcept = 0;
-    virtual void deactivate() noexcept = 0;
+    void activate() noexcept;
+    void deactivate() noexcept;
   };
 }
 
