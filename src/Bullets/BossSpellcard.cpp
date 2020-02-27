@@ -50,4 +50,12 @@ namespace TouhouNovelRT::Bullets {
     _active = false;
     _runner.lock()->Update -= _updateDelegate;
   }
+
+  void BossSpellcard::constructBullets() noexcept {
+    auto& emitters = _stage.getEmitters();
+
+    for (auto& emitter : emitters) {
+      emitter->constructBullets();
+    }
+  }
 }
