@@ -14,7 +14,7 @@ namespace TouhouNovelRT::Bullets {
   }
 
   void Emitter::updateEmitter(NovelRT::Timing::Timestamp delta) noexcept {
-    _timeToNextBullet -= delta;
+    _timeToNextBullet += delta;
 
     for (auto& bullet : _bulletPool) {
       if (bullet->transform().position().getX() > 1920.0f || bullet->transform().position().getX() < 0.0f || bullet->transform().position().getY() > 1080.0f || bullet->transform().position().getY() < 0.0f) {
@@ -27,11 +27,11 @@ namespace TouhouNovelRT::Bullets {
   }
 
   bool Emitter::tryShoot(const NovelRT::Maths::GeoVector2<float>& direction, const NovelRT::Maths::GeoVector2<float>& position, float rotation, float bulletSpeed) noexcept {
-    if (_timeToNextBullet > NovelRT::Timing::Timestamp(0)) {
+    if (_timeToNextBullet < _cooldown) {
       return false;
     }
 
-    _timeToNextBullet = _cooldown;
+    _timeToNextBullet = NovelRT::Timing::Timestamp(0);
 
     for (auto& bullet : _bulletPool) {
       if (bullet->getActive()) {

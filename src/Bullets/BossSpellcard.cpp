@@ -4,12 +4,18 @@
 
 namespace TouhouNovelRT::Bullets {
   void BossSpellcard::updateSpellcard(NovelRT::Timing::Timestamp delta) noexcept {
+    if (_wave == std::numeric_limits<size_t>::max()) {
+      _wave = 0;
+    }
+
     auto index = _wave;
 
+    if (_stage.getWaveData().size() <= index) {
+      index = 0;
+    }
+
     if(_delta >= _stage.getWaveData().at(index).getTimeToNextState() || _wave == std::numeric_limits<size_t>::max()) {
-      if (_wave == std::numeric_limits<size_t>::max()) {
-        _wave = 0;
-      }
+
 
       index = _wave++;
       if (_stage.getWaveData().size() <= index) {
