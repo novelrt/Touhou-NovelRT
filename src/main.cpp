@@ -17,18 +17,18 @@ int main(int argc, char *argv[]) {
   audio.lock()->initializeAudio();
   auto bgm = audio.lock()->loadMusic((soundsDirPath / "marisa.ogg").string());
 
-  auto playerTransform = NovelRT::Transform(TouhouNovelRT::SceneGraph::SimpleScene::WorldOrigin, 0.0f, NovelRT::Maths::GeoVector<float>(0.0f, 0.0f));
+  auto playerTransform = NovelRT::Transform(TouhouNovelRT::SceneGraph::SimpleScene::WorldOrigin, 0.0f, NovelRT::Maths::GeoVector2<float>(0.0f, 0.0f));
   auto playerNode = std::make_shared<TouhouNovelRT::SceneGraph::PlayerNode>(runner, std::shared_ptr(std::move(runner->getRenderer().lock()->createImageRect(playerTransform, 3, NovelRT::Graphics::RGBAConfig(255, 255, 255, 255)))));
   scene->insert(playerNode);
 
-  auto bossTransform = NovelRT::Transform(TouhouNovelRT::SceneGraph::SimpleScene::WorldOrigin, 0.0f, NovelRT::Maths::GeoVector<float>(0.0f, 0.0f));
-  bossTransform.getPosition().setX(bossTransform.getPosition().getX() + (TouhouNovelRT::SceneGraph::SimpleScene::WorldSize.getX() / 3));
+  auto bossTransform = NovelRT::Transform(TouhouNovelRT::SceneGraph::SimpleScene::WorldOrigin, 0.0f, NovelRT::Maths::GeoVector2<float>(0.0f, 0.0f));
+  bossTransform.position().setX(bossTransform.position().getX() + (TouhouNovelRT::SceneGraph::SimpleScene::WorldSize.getX() / 3));
   auto bossNode = std::make_shared<TouhouNovelRT::SceneGraph::BossNode>(runner, std::shared_ptr(std::move(runner->getRenderer().lock()->createImageRect(bossTransform, 3, NovelRT::Graphics::RGBAConfig(255, 255, 255, 255)))));
   scene->insert(bossNode);
 
-  auto playerBulletFactory = TouhouNovelRT::Bullets::BulletFactory(runner, NovelRT::Maths::GeoVector<float>(36.0f, 36.0f), NovelRT::Graphics::RGBAConfig(255, 255, 255, 255), 2, false, (imagesDirPath / "bullet" / "circle" / "small-17.png").string(), bossNode);
+  auto playerBulletFactory = TouhouNovelRT::Bullets::BulletFactory(runner, NovelRT::Maths::GeoVector2<float>(36.0f, 36.0f), NovelRT::Graphics::RGBAConfig(255, 255, 255, 255), 2, false, (imagesDirPath / "bullet" / "circle" / "small-17.png").string(), bossNode);
   auto playerBulletEmitter = std::vector<std::shared_ptr<TouhouNovelRT::Bullets::Emitter>>{ std::make_shared<TouhouNovelRT::Bullets::Emitter>(TouhouNovelRT::SceneGraph::SimpleScene::WorldSize.getX() * 0.75f, 1.0f / 15.0f, runner, playerNode, playerBulletFactory) };
-  auto playerSpellcardFactory = TouhouNovelRT::Bullets::BulletFactory(runner, NovelRT::Maths::GeoVector<float>(36.0f, 36.0f), NovelRT::Graphics::RGBAConfig(255, 255, 255, 255), 2, std::vector<std::string>(), bossNode);
+  auto playerSpellcardFactory = TouhouNovelRT::Bullets::BulletFactory(runner, NovelRT::Maths::GeoVector2<float>(36.0f, 36.0f), NovelRT::Graphics::RGBAConfig(255, 255, 255, 255), 2, std::vector<std::string>(), bossNode);
   auto playerSpellcard = std::make_shared<TouhouNovelRT::Bullets::MarisaSpellcard>(std::make_shared<TouhouNovelRT::Bullets::Emitter>(400.0f, 2.0f, runner, playerNode, playerSpellcardFactory));
   auto playerGun = TouhouNovelRT::Player::Gun(playerBulletEmitter, std::shared_ptr<TouhouNovelRT::Bullets::MarisaSpellcard>(playerSpellcard));
   auto playerController = TouhouNovelRT::Player::Controller(playerGun, runner.get(), runner->getInteractionService(), playerNode);
@@ -36,19 +36,19 @@ int main(int argc, char *argv[]) {
   auto bossBulletMap = std::map<size_t, std::vector<TouhouNovelRT::Bullets::BulletInstanceConfig>>{
       {
         0, std::vector<TouhouNovelRT::Bullets::BulletInstanceConfig>{
-          TouhouNovelRT::Bullets::BulletInstanceConfig(NovelRT::Maths::GeoVector<float>(0.0f, 1.0f), NovelRT::Maths::GeoVector<float>(200.0f, 200.0f), 0.0f, 100.0f)
+          TouhouNovelRT::Bullets::BulletInstanceConfig(NovelRT::Maths::GeoVector2<float>(0.0f, 1.0f), NovelRT::Maths::GeoVector2<float>(200.0f, 200.0f), 0.0f, 100.0f)
         }
       },
       {
         0, std::vector<TouhouNovelRT::Bullets::BulletInstanceConfig>{
-          TouhouNovelRT::Bullets::BulletInstanceConfig(NovelRT::Maths::GeoVector<float>(0.0f, 1.0f), NovelRT::Maths::GeoVector<float>(200.0f, 200.0f), 0.0f, 100.0f)
+          TouhouNovelRT::Bullets::BulletInstanceConfig(NovelRT::Maths::GeoVector2<float>(0.0f, 1.0f), NovelRT::Maths::GeoVector2<float>(200.0f, 200.0f), 0.0f, 100.0f)
         }
       },
   };
-  auto bossBulletFactory = TouhouNovelRT::Bullets::BulletFactory(runner, NovelRT::Maths::GeoVector<float>(36.0f, 36.0f), NovelRT::Graphics::RGBAConfig(255, 255, 255, 255), 2, false, (imagesDirPath / "bullet" / "circle" / "small-20.png").string(), playerNode);
+  auto bossBulletFactory = TouhouNovelRT::Bullets::BulletFactory(runner, NovelRT::Maths::GeoVector2<float>(36.0f, 36.0f), NovelRT::Graphics::RGBAConfig(255, 255, 255, 255), 2, false, (imagesDirPath / "bullet" / "circle" / "small-20.png").string(), playerNode);
   auto bossBulletEmitter = std::vector<std::shared_ptr<TouhouNovelRT::Bullets::Emitter>>{ std::make_shared<TouhouNovelRT::Bullets::Emitter>(TouhouNovelRT::SceneGraph::SimpleScene::WorldSize.getX() * 0.75f, 1.0f / 15.0f, runner, bossNode, bossBulletFactory) };
-  auto bossSpellcardFactory = TouhouNovelRT::Bullets::BulletFactory(runner, NovelRT::Maths::GeoVector<float>(36.0f, 36.0f), NovelRT::Graphics::RGBAConfig(255, 255, 255, 255), 2, std::vector<std::string>(), playerNode);
-  auto bossSpellcard = std::make_shared<TouhouNovelRT::Bullets::BossSpellcard>(runner, TouhouNovelRT::Bullets::BossSpellcardBulletStageData(std::vector<TouhouNovelRT::Bullets::BulletWaveData>{TouhouNovelRT::Bullets::BulletWaveData(bossBulletMap, 1) }, bossBulletEmitter));
+  auto bossSpellcardFactory = TouhouNovelRT::Bullets::BulletFactory(runner, NovelRT::Maths::GeoVector2<float>(36.0f, 36.0f), NovelRT::Graphics::RGBAConfig(255, 255, 255, 255), 2, std::vector<std::string>(), playerNode);
+  auto bossSpellcard = std::make_shared<TouhouNovelRT::Bullets::BossSpellcard>(runner, TouhouNovelRT::Bullets::BossSpellcardBulletStageData(std::vector<TouhouNovelRT::Bullets::BulletWaveData>{TouhouNovelRT::Bullets::BulletWaveData(bossBulletMap, NovelRT::Timing::Timestamp::fromSeconds(1)) }, bossBulletEmitter));
   bossSpellcard->activate();
 
   audio.lock()->playMusic(bgm, -1);

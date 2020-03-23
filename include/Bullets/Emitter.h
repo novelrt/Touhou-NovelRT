@@ -11,19 +11,19 @@ namespace TouhouNovelRT::Bullets {
   class Emitter {
   private:
     std::vector<std::unique_ptr<Bullet>> _bulletPool;
-    NovelRT::Maths::GeoVector<float> _direction;
+    NovelRT::Maths::GeoVector2<float> _direction;
     float _bulletSpeed;
-    float _cooldown;
-    float _timeToNextBullet;
+    NovelRT::Timing::Timestamp _cooldown;
+    NovelRT::Timing::Timestamp _timeToNextBullet;
     std::weak_ptr<NovelRT::NovelRunner> _runner;
     std::shared_ptr<TouhouNovelRT::SceneGraph::PhysicsNode> _muzzle;
     BulletFactory _factory;
 
-    void updateEmitter(double delta) noexcept;
+    void updateEmitter(NovelRT::Timing::Timestamp delta) noexcept;
   public:
     Emitter(float bulletSpeed, float cooldown, std::weak_ptr<NovelRT::NovelRunner> runner, std::shared_ptr<TouhouNovelRT::SceneGraph::PhysicsNode> muzzle, const BulletFactory& factory) noexcept;
-    bool tryShoot(const NovelRT::Maths::GeoVector<float>& direction, const NovelRT::Maths::GeoVector<float>& position, float rotation, float bulletSpeed) noexcept;
-    bool tryShoot(const NovelRT::Maths::GeoVector<float>& direction) noexcept;
+    bool tryShoot(const NovelRT::Maths::GeoVector2<float>& direction, const NovelRT::Maths::GeoVector2<float>& position, float rotation, float bulletSpeed) noexcept;
+    bool tryShoot(const NovelRT::Maths::GeoVector2<float>& direction) noexcept;
     void constructBullets() noexcept;
   };
 }

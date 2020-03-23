@@ -3,7 +3,7 @@
 #include <TouhouNovelRT.h>
 
 namespace TouhouNovelRT::Bullets {
-  BulletFactory::BulletFactory(std::weak_ptr<NovelRT::NovelRunner> runner, NovelRT::Maths::GeoVector<float> scale, NovelRT::Graphics::RGBAConfig colourConfig, int layer, bool isFill, const std::string& textureFile, std::shared_ptr<TouhouNovelRT::SceneGraph::PhysicsNode> enemy) noexcept :
+  BulletFactory::BulletFactory(std::weak_ptr<NovelRT::NovelRunner> runner, NovelRT::Maths::GeoVector2<float> scale, NovelRT::Graphics::RGBAConfig colourConfig, int layer, bool isFill, const std::string& textureFile, std::shared_ptr<TouhouNovelRT::SceneGraph::PhysicsNode> enemy) noexcept :
     _colourConfig(colourConfig),
     _isFill(isFill),
     _layer(layer),
@@ -13,7 +13,7 @@ namespace TouhouNovelRT::Bullets {
     _textureVector(std::vector<std::shared_ptr<NovelRT::Graphics::Texture>> {_runner.lock()->getRenderer().lock()->getTexture(textureFile)}),
     _enemy(enemy) {}
 
-  BulletFactory::BulletFactory(std::weak_ptr<NovelRT::NovelRunner> runner, NovelRT::Maths::GeoVector<float> scale, NovelRT::Graphics::RGBAConfig colourConfig, int layer, std::shared_ptr<NovelRT::Graphics::Texture> texture, std::shared_ptr<TouhouNovelRT::SceneGraph::PhysicsNode> enemy) noexcept :
+  BulletFactory::BulletFactory(std::weak_ptr<NovelRT::NovelRunner> runner, NovelRT::Maths::GeoVector2<float> scale, NovelRT::Graphics::RGBAConfig colourConfig, int layer, std::shared_ptr<NovelRT::Graphics::Texture> texture, std::shared_ptr<TouhouNovelRT::SceneGraph::PhysicsNode> enemy) noexcept :
     _colourConfig(colourConfig),
     _isFill(false),
     _layer(layer),
@@ -23,7 +23,7 @@ namespace TouhouNovelRT::Bullets {
     _textureVector(std::vector<std::shared_ptr<NovelRT::Graphics::Texture>> {texture}),
     _enemy(enemy) {}
 
-  BulletFactory::BulletFactory(std::weak_ptr<NovelRT::NovelRunner> runner, NovelRT::Maths::GeoVector<float> scale, NovelRT::Graphics::RGBAConfig colourConfig, int layer, const std::vector<std::string>& bulletTextures, std::shared_ptr<TouhouNovelRT::SceneGraph::PhysicsNode> enemy) noexcept :
+  BulletFactory::BulletFactory(std::weak_ptr<NovelRT::NovelRunner> runner, NovelRT::Maths::GeoVector2<float> scale, NovelRT::Graphics::RGBAConfig colourConfig, int layer, const std::vector<std::string>& bulletTextures, std::shared_ptr<TouhouNovelRT::SceneGraph::PhysicsNode> enemy) noexcept :
     _colourConfig(colourConfig),
     _isFill(false),
     _layer(layer),
@@ -37,7 +37,7 @@ namespace TouhouNovelRT::Bullets {
     }
   }
 
-  std::unique_ptr<Bullet> BulletFactory::create(const NovelRT::Maths::GeoVector<float>& startingPosition, const NovelRT::Maths::GeoVector<float>& direction, float speed) noexcept
+  std::unique_ptr<Bullet> BulletFactory::create(const NovelRT::Maths::GeoVector2<float>& startingPosition, const NovelRT::Maths::GeoVector2<float>& direction, float speed) noexcept
   {
     if (_runner.expired()) {
       return nullptr;
@@ -57,7 +57,7 @@ namespace TouhouNovelRT::Bullets {
         _textureCounter = 0;
       }
 
-      rect->setTexture(_textureVector.at(_textureCounter++));
+      rect->texture() = _textureVector.at(_textureCounter++);
       ptr = std::unique_ptr<NovelRT::Graphics::RenderObject>(std::move(rect));
     }
 

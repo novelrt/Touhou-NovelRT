@@ -10,7 +10,7 @@
 namespace TouhouNovelRT::Bullets {
   class Bullet : public NovelRT::WorldObject {
   private:
-    NovelRT::Maths::GeoVector<float> _direction;
+    NovelRT::Maths::GeoVector2<float> _direction;
     float _bulletSpeed;
     std::unique_ptr<NovelRT::Graphics::RenderObject> _renderTarget;
     std::shared_ptr<TouhouNovelRT::SceneGraph::PhysicsNode> _enemy;
@@ -18,13 +18,13 @@ namespace TouhouNovelRT::Bullets {
   public:
     Bullet(float bulletSpeed, std::weak_ptr<NovelRT::NovelRunner> runner, std::unique_ptr<NovelRT::Graphics::RenderObject> renderTarget, std::shared_ptr<TouhouNovelRT::SceneGraph::PhysicsNode> enemy) noexcept;
 
-    inline void setDirection(const NovelRT::Maths::GeoVector<float>& value) noexcept {
+    inline void setDirection(const NovelRT::Maths::GeoVector2<float>& value) noexcept {
       _direction = value;
     }
 
     void executeObjectBehaviour() final;
 
-    void bulletUpdate(double delta) noexcept;
+    void bulletUpdate(NovelRT::Timing::Timestamp delta) noexcept;
   };
 }
 

@@ -14,15 +14,15 @@ namespace TouhouNovelRT::Bullets {
   class BulletWaveData {
   private:
     std::map<size_t, std::vector<BulletInstanceConfig>> _bulletInstances;
-    float _timeToNextWave;
+    NovelRT::Timing::Timestamp _timeToNextWave;
   public:
-    BulletWaveData(const std::map<size_t, std::vector<BulletInstanceConfig>>& bulletInstanceData, float timeToNextState) noexcept;
+    BulletWaveData(const std::map<size_t, std::vector<BulletInstanceConfig>>& bulletInstanceData, NovelRT::Timing::Timestamp timeToNextState) noexcept;
 
     inline const std::map<size_t, std::vector<BulletInstanceConfig>>& getInstanceData() const noexcept {
       return _bulletInstances;
     }
 
-    inline float getTimeToNextState() const noexcept {
+    inline NovelRT::Timing::Timestamp getTimeToNextState() const noexcept {
       return _timeToNextWave;
     }
   };

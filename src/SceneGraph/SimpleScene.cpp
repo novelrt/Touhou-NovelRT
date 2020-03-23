@@ -6,13 +6,13 @@ namespace TouhouNovelRT::SceneGraph {
   SimpleScene::SimpleScene(std::weak_ptr<NovelRT::NovelRunner> runner, std::string backgroundFile, std::string borderFile, bool isScrolling) :
     _runner(runner),
       _quadTree(std::make_shared<NovelRT::Maths::QuadTree>(WorldBounds)),
-      _bkgdTransformOne(NovelRT::Transform(NovelRT::Maths::GeoVector<float>((WorldSize.getX() * 1.5f), (WorldSize.getY() / 2.0f)), 0, NovelRT::Maths::GeoVector<float>(WorldSize.getX(), (WorldSize.getY() / 3.0f) * 2.25f))),
+      _bkgdTransformOne(NovelRT::Transform(NovelRT::Maths::GeoVector2<float>((WorldSize.getX() * 1.5f), (WorldSize.getY() / 2.0f)), 0, NovelRT::Maths::GeoVector2<float>(WorldSize.getX(), (WorldSize.getY() / 3.0f) * 2.25f))),
       _bkgdImageOne(std::move(_runner.lock()->getRenderer().lock()->createImageRect(_bkgdTransformOne, 100, backgroundFile))),
-      _borderTransform(NovelRT::Transform(NovelRT::Maths::GeoVector<float>((WorldSize.getX() / 2.0f), (WorldSize.getY() / 2.0f)), 0, NovelRT::Maths::GeoVector<float>(WorldSize.getX() * 2.0f, WorldSize.getY() * 2.0f))),
+      _borderTransform(NovelRT::Transform(NovelRT::Maths::GeoVector2<float>((WorldSize.getX() / 2.0f), (WorldSize.getY() / 2.0f)), 0, NovelRT::Maths::GeoVector2<float>(WorldSize.getX() * 2.0f, WorldSize.getY() * 2.0f))),
       _borderImage(std::move(_runner.lock()->getRenderer().lock()->createImageRect(_borderTransform, 101, borderFile))),
-      _bkgdTransformTwo(NovelRT::Transform(NovelRT::Maths::GeoVector<float>((WorldSize.getX() / 2.0f), (WorldSize.getY() / 2.0f)), 0, NovelRT::Maths::GeoVector<float>(WorldSize.getX(), (WorldSize.getY() / 3.0f) * 2.25f))),
+      _bkgdTransformTwo(NovelRT::Transform(NovelRT::Maths::GeoVector2<float>((WorldSize.getX() / 2.0f), (WorldSize.getY() / 2.0f)), 0, NovelRT::Maths::GeoVector2<float>(WorldSize.getX(), (WorldSize.getY() / 3.0f) * 2.25f))),
       _bkgdImageTwo(std::move(_runner.lock()->getRenderer().lock()->createImageRect(_bkgdTransformTwo, 100, backgroundFile))),
-      _bkgdTransformThree(NovelRT::Transform(NovelRT::Maths::GeoVector<float>(-(WorldSize.getX() * 1.5f), (WorldSize.getY() / 2.0f)), 0, NovelRT::Maths::GeoVector<float>(WorldSize.getX(), (WorldSize.getY() / 3.0f) * 2.25f))),
+      _bkgdTransformThree(NovelRT::Transform(NovelRT::Maths::GeoVector2<float>(-(WorldSize.getX() * 1.5f), (WorldSize.getY() / 2.0f)), 0, NovelRT::Maths::GeoVector2<float>(WorldSize.getX(), (WorldSize.getY() / 3.0f) * 2.25f))),
       _bkgdImageThree(std::move(_runner.lock()->getRenderer().lock()->createImageRect(_bkgdTransformThree, 100, backgroundFile))),
       _isScrolling(isScrolling) {
       runner.lock()->Update += [&](auto delta) { updateBackground(delta); };
@@ -30,28 +30,28 @@ namespace TouhouNovelRT::SceneGraph {
     }
   }
 
-  void SimpleScene::updateBackground(double delta) {
+  void SimpleScene::updateBackground(NovelRT::Timing::Timestamp delta) {
     if (_isScrolling) {
-      auto backOne = _bkgdImageOne->getTransform().getPosition().getX();
-      auto backTwo = _bkgdImageTwo->getTransform().getPosition().getX();
-      auto backThree = _bkgdImageThree->getTransform().getPosition().getX();
-      auto movementVector = NovelRT::Maths::GeoVector<float>::zero();
+      auto backOne = _bkgdImageOne->transform().position().getX();
+      auto backTwo = _bkgdImageTwo->transform().position().getX();
+      auto backThree = _bkgdImageThree->transform().position().getX();
+      auto movementVector = NovelRT::Maths::GeoVector2<float>::zero();
       movementVector.setX(150.f);
 
       if (backOne > 2880) {
-        _bkgdImageOne->getTransform().setPosition(NovelRT::Maths::GeoVector<float>(-960, _bkgdTransformOne.getPosition().getY()));
+        _bkgdImageOne->transform().position() = NovelRT::Maths::GeoVector2<float>(-960, _bkgdTransformOne.position().getY());
       }
       else if (backTwo > 2880) {
-        _bkgdImageTwo->getTransform().setPosition(NovelRT::Maths::GeoVector<float>(-960, _bkgdTransformTwo.getPosition().getY()));
+        _bkgdImageTwo->transform().position() = NovelRT::Maths::GeoVector2<float>(-960, _bkgdTransformTwo.position().getY());
       }
       else if (backThree > 2880) {
-        _bkgdImageThree->getTransform().setPosition(NovelRT::Maths::GeoVector<float>(-960, _bkgdTransformThree.getPosition().getY()));
+        _bkgdImageThree->transform().position() = NovelRT::Maths::GeoVector2<float>(-960, _bkgdTransformThree.position().getY());
       }
 
-      auto delt = static_cast<float>(delta);
-      _bkgdImageOne->getTransform().setPosition(_bkgdImageOne->getTransform().getPosition() + (movementVector * delt));
-      _bkgdImageTwo->getTransform().setPosition(_bkgdImageTwo->getTransform().getPosition() + (movementVector * delt));
-      _bkgdImageThree->getTransform().setPosition(_bkgdImageThree->getTransform().getPosition() + (movementVector * delt));
+      auto delt = delta.getSecondsFloat();
+      _bkgdImageOne->transform().position() += movementVector * delt;
+      _bkgdImageTwo->transform().position() = _bkgdImageTwo->transform().position() + (movementVector * delt);
+      _bkgdImageThree->transform().position() = _bkgdImageThree->transform().position() + (movementVector * delt);
       _bkgdImageOne->executeObjectBehaviour();
       _bkgdImageTwo->executeObjectBehaviour();
       _bkgdImageThree->executeObjectBehaviour();

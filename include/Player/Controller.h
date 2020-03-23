@@ -23,9 +23,9 @@ namespace TouhouNovelRT::Player {
     std::shared_ptr<TouhouNovelRT::SceneGraph::PhysicsNode> _physicsNode;
     
 
-    void controllerUpdate(double delta);
-    void movementUpdate(double delta, const std::shared_ptr<NovelRT::Input::InteractionService>& input);
-    void combatUpdate(double delta, const std::shared_ptr<NovelRT::Input::InteractionService>& input);
+    void controllerUpdate(NovelRT::Timing::Timestamp delta);
+    void movementUpdate(NovelRT::Timing::Timestamp delta, const std::shared_ptr<NovelRT::Input::InteractionService>& input);
+    void combatUpdate(NovelRT::Timing::Timestamp delta, const std::shared_ptr<NovelRT::Input::InteractionService>& input);
 
   public:
     Controller(const Gun& gun, NovelRT::NovelRunner* runner, std::weak_ptr<NovelRT::Input::InteractionService> input, std::shared_ptr<TouhouNovelRT::SceneGraph::PhysicsNode> physicsNode) noexcept;
