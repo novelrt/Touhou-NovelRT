@@ -3,7 +3,7 @@
 #include <TouhouNovelRT.h>
 
 namespace TouhouNovelRT::Bullets {
-  BulletWaveData::BulletWaveData(const std::map<size_t, std::vector<BulletInstanceConfig>>& bulletInstanceData, float timeToNextWave) noexcept :
+  BulletWaveData::BulletWaveData(const std::map<size_t, std::vector<BulletInstanceConfig>>& bulletInstanceData, NovelRT::Timing::Timestamp timeToNextWave) noexcept :
     _bulletInstances(bulletInstanceData),
     _timeToNextWave(timeToNextWave) {}
 }

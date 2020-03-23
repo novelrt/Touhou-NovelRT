@@ -10,14 +10,14 @@
 namespace TouhouNovelRT::Bullets {
   class BossSpellcard {
   private:
-    NovelRT::Utilities::EventHandler<double> _updateDelegate;
-    double _delta;
+    NovelRT::Utilities::EventHandler<NovelRT::Timing::Timestamp> _updateDelegate;
+    NovelRT::Timing::Timestamp _delta;
     BossSpellcardBulletStageData _stage;
     std::weak_ptr<NovelRT::NovelRunner> _runner;
     size_t _wave = std::numeric_limits<size_t>::max();
     bool _active;
 
-    void updateSpellcard(double delta) noexcept;
+    void updateSpellcard(NovelRT::Timing::Timestamp delta) noexcept;
 
 
   public:

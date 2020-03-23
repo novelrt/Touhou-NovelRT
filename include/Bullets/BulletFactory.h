@@ -14,18 +14,18 @@ namespace TouhouNovelRT::Bullets {
     bool _isFill;
     int _layer; //I know this is inconsistent but the layer parameter on rects is int, not int32_t, so I did this for consistency. - Ruby <3
     int32_t _textureCounter;
-    NovelRT::Maths::GeoVector<float> _scale;
+    NovelRT::Maths::GeoVector2<float> _scale;
     std::weak_ptr<NovelRT::NovelRunner> _runner;
 
     std::vector<std::shared_ptr<NovelRT::Graphics::Texture>> _textureVector;
     std::shared_ptr<TouhouNovelRT::SceneGraph::PhysicsNode> _enemy;
 
   public:
-    BulletFactory(std::weak_ptr<NovelRT::NovelRunner> runner, NovelRT::Maths::GeoVector<float> scale, NovelRT::Graphics::RGBAConfig colourConfig, int layer, bool isFill, const std::string& textureFile, std::shared_ptr<TouhouNovelRT::SceneGraph::PhysicsNode> enemy) noexcept;
-    BulletFactory(std::weak_ptr<NovelRT::NovelRunner> runner, NovelRT::Maths::GeoVector<float> scale, NovelRT::Graphics::RGBAConfig colourConfig, int layer, std::shared_ptr<NovelRT::Graphics::Texture> texture, std::shared_ptr<TouhouNovelRT::SceneGraph::PhysicsNode> enemy) noexcept;
-    BulletFactory(std::weak_ptr<NovelRT::NovelRunner> runner, NovelRT::Maths::GeoVector<float> scale, NovelRT::Graphics::RGBAConfig colourConfig, int layer, const std::vector<std::string>& bulletTextures, std::shared_ptr<TouhouNovelRT::SceneGraph::PhysicsNode> enemy) noexcept;
+    BulletFactory(std::weak_ptr<NovelRT::NovelRunner> runner, NovelRT::Maths::GeoVector2<float> scale, NovelRT::Graphics::RGBAConfig colourConfig, int layer, bool isFill, const std::string& textureFile, std::shared_ptr<TouhouNovelRT::SceneGraph::PhysicsNode> enemy) noexcept;
+    BulletFactory(std::weak_ptr<NovelRT::NovelRunner> runner, NovelRT::Maths::GeoVector2<float> scale, NovelRT::Graphics::RGBAConfig colourConfig, int layer, std::shared_ptr<NovelRT::Graphics::Texture> texture, std::shared_ptr<TouhouNovelRT::SceneGraph::PhysicsNode> enemy) noexcept;
+    BulletFactory(std::weak_ptr<NovelRT::NovelRunner> runner, NovelRT::Maths::GeoVector2<float> scale, NovelRT::Graphics::RGBAConfig colourConfig, int layer, const std::vector<std::string>& bulletTextures, std::shared_ptr<TouhouNovelRT::SceneGraph::PhysicsNode> enemy) noexcept;
 
-    std::unique_ptr<Bullet> create(const NovelRT::Maths::GeoVector<float>& startingPosition, const NovelRT::Maths::GeoVector<float>& direction, float speed) noexcept;
+    std::unique_ptr<Bullet> create(const NovelRT::Maths::GeoVector2<float>& startingPosition, const NovelRT::Maths::GeoVector2<float>& direction, float speed) noexcept;
 
     inline void setIsFill(bool value) noexcept {
       _isFill = value;

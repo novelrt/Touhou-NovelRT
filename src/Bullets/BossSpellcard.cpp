@@ -3,18 +3,20 @@
 #include <TouhouNovelRT.h>
 
 namespace TouhouNovelRT::Bullets {
-  void BossSpellcard::updateSpellcard(double delta) noexcept {
-    if(_delta <= 0 || _wave == std::numeric_limits<size_t>::max()) {
+  void BossSpellcard::updateSpellcard(NovelRT::Timing::Timestamp delta) noexcept {
+    auto index = _wave;
+
+    if(_delta >= _stage.getWaveData().at(index).getTimeToNextState() || _wave == std::numeric_limits<size_t>::max()) {
       if (_wave == std::numeric_limits<size_t>::max()) {
         _wave = 0;
       }
 
-      auto index = _wave++;
+      index = _wave++;
       if (_stage.getWaveData().size() <= index) {
         index = 0;
       }
 
-      _delta = _stage.getWaveData().at(index).getTimeToNextState();
+      _delta = NovelRT::Timing::Timestamp(0);
       auto& map = _stage.getWaveData().at(index).getInstanceData();
       auto& emitters = _stage.getEmitters();
       for (auto& pair : map) {
@@ -23,13 +25,13 @@ namespace TouhouNovelRT::Bullets {
         }
       }
     }
-    _delta -= delta;
+    _delta += delta;
   }
 
   BossSpellcard::BossSpellcard(std::weak_ptr<NovelRT::NovelRunner> runner, const BossSpellcardBulletStageData& stage) noexcept :
     _active(false),
-    _updateDelegate(NovelRT::Utilities::EventHandler<double>([&](auto delta) { updateSpellcard(delta); })),
-    _delta(0.0f),
+    _updateDelegate(NovelRT::Utilities::EventHandler<NovelRT::Timing::Timestamp>([&](auto delta) { updateSpellcard(delta); })),
+    _delta(0),
     _stage(stage),
     _runner(runner){}
 

@@ -8,7 +8,7 @@ namespace TouhouNovelRT::Player {
   _spellcardEmitter(spellcardEmitter) {
   }
 
-  void Gun::shoot(const NovelRT::Maths::GeoVector<float>& direction) noexcept {
+  void Gun::shoot(const NovelRT::Maths::GeoVector2<float>& direction) noexcept {
     for (auto& emitter : _emitters) {
       emitter->tryShoot(direction);
     }

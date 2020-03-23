@@ -3,7 +3,7 @@
 #include <TouhouNovelRT.h>
 
 namespace TouhouNovelRT::Bullets {
-  BulletInstanceConfig::BulletInstanceConfig(const GeoVector<float>& direction, const GeoVector<float>& startingPosition, float startingRotation, float speed) noexcept :
+  BulletInstanceConfig::BulletInstanceConfig(const GeoVector2<float>& direction, const GeoVector2<float>& startingPosition, float startingRotation, float speed) noexcept :
     _direction(direction),
     _startingPosition(startingPosition),
     _startingRotation(startingRotation),

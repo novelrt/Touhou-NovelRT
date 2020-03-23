@@ -22,11 +22,11 @@ namespace TouhouNovelRT::SceneGraph {
     std::unique_ptr<NovelRT::Graphics::ImageRect> _borderImage;
     bool _isScrolling;
 
-    void updateBackground(double delta);
+    void updateBackground(NovelRT::Timing::Timestamp delta);
 
   public:
-    inline static const NovelRT::Maths::GeoVector<float> WorldSize = NovelRT::Maths::GeoVector(1920.0f, 1080.0f);
-    inline static const NovelRT::Maths::GeoVector<float> WorldOrigin = WorldSize / 2.0f;
+    inline static const NovelRT::Maths::GeoVector2<float> WorldSize = NovelRT::Maths::GeoVector2(1920.0f, 1080.0f);
+    inline static const NovelRT::Maths::GeoVector2<float> WorldOrigin = WorldSize / 2.0f;
     inline static const NovelRT::Maths::GeoBounds WorldBounds = NovelRT::Maths::GeoBounds(WorldOrigin, WorldSize, 0.0f);
 
     SimpleScene(std::weak_ptr<NovelRT::NovelRunner> runner, std::string backgroundFile, std::string borderFile, bool isScrolling);

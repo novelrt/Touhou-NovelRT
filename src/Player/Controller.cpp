@@ -23,7 +23,7 @@ namespace TouhouNovelRT::Player {
     runner->Update += [&](auto delta) { controllerUpdate(delta); };
   }
 
-  void Controller::controllerUpdate(double delta) {
+  void Controller::controllerUpdate(NovelRT::Timing::Timestamp delta) {
     if (_input.expired()) {
       return;
     }
@@ -33,7 +33,7 @@ namespace TouhouNovelRT::Player {
     movementUpdate(delta, input);
   }
 
-  void Controller::movementUpdate(double delta, const std::shared_ptr<InteractionService>& input) {
+  void Controller::movementUpdate(NovelRT::Timing::Timestamp delta, const std::shared_ptr<InteractionService>& input) {
     auto moveUpState = input->getKeyState(_moveUpKey);
     auto moveDownState = input->getKeyState(_moveDownKey);
     auto moveLeftState = input->getKeyState(_moveLeftKey);
@@ -69,7 +69,7 @@ namespace TouhouNovelRT::Player {
       _movementState &= ~MovementState::Right;
     }
 
-    auto inputVector = GeoVector<float>::zero();
+    auto inputVector = GeoVector2<float>::zero();
 
     auto applyUp = [&] { inputVector.setY(-1.0f); };
     auto applyDown = [&] { inputVector.setY(1.0f); };
@@ -120,20 +120,20 @@ namespace TouhouNovelRT::Player {
       break;
     }
 
-    if (inputVector != GeoVector<float>::zero()) {
+    if (inputVector != GeoVector2<float>::zero()) {
       inputVector = inputVector.getNormalised();
     }
 
     auto moveSpeed = (precisionMove == KeyState::KeyDown || precisionMove == KeyState::KeyDownHeld) ? 250.0f : 600.0f;
-    _physicsNode->addPosition((inputVector * (moveSpeed * static_cast<float>(delta))));
+    _physicsNode->addPosition((inputVector * (moveSpeed * delta.getSecondsFloat())));
   }
 
-  void Controller::combatUpdate(double delta, const std::shared_ptr<NovelRT::Input::InteractionService>& input) {
+  void Controller::combatUpdate(NovelRT::Timing::Timestamp delta, const std::shared_ptr<NovelRT::Input::InteractionService>& input) {
     auto shootState = input->getKeyState(_shootKey);
     auto spellcardState = input->getKeyState(_spellcardKey);
 
     if (shootState == KeyState::KeyDown || shootState == KeyState::KeyDownHeld) {
-      _gun.shoot(GeoVector<float>(1.0f, 0.0f));
+      _gun.shoot(GeoVector2<float>(1.0f, 0.0f));
     }
 
     if (spellcardState == KeyState::KeyDown || spellcardState == KeyState::KeyDownHeld) {

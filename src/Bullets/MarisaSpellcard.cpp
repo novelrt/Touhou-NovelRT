@@ -10,7 +10,7 @@ namespace TouhouNovelRT::Bullets {
     PlayerSpellcard(spellcardEmitter) {}
 
   void MarisaSpellcard::activate() noexcept {
-    if (getCardCount() > 0 && _spellcardEmitter->tryShoot(GeoVector<float>(0.0f, 1.0f))) {
+    if (getCardCount() > 0 && _spellcardEmitter->tryShoot(GeoVector2<float>(0.0f, 1.0f))) {
       decrementCardCount();
     }
   }

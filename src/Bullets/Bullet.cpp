@@ -7,27 +7,27 @@ namespace TouhouNovelRT::Bullets {
   using namespace NovelRT::Maths;
 
   Bullet::Bullet(float bulletSpeed, std::weak_ptr<NovelRT::NovelRunner> runner, std::unique_ptr<NovelRT::Graphics::RenderObject> renderTarget, std::shared_ptr<TouhouNovelRT::SceneGraph::PhysicsNode> enemy) noexcept :
-    NovelRT::WorldObject(renderTarget->getTransform(), renderTarget->getLayer()),
-    _direction(GeoVector<float>::zero()),
+    NovelRT::WorldObject(renderTarget->transform(), renderTarget->layer()),
+    _direction(GeoVector2<float>::zero()),
     _bulletSpeed(bulletSpeed),
     _renderTarget(std::move(renderTarget)),
     _enemy(enemy) {
   }
 
-  void Bullet::bulletUpdate(double delta) noexcept {
+  void Bullet::bulletUpdate(NovelRT::Timing::Timestamp delta) noexcept {
     if (!getActive()) {
       return;
     }
 
-    getTransform().setPosition(getTransform().getPosition() + _direction * _bulletSpeed * static_cast<float>(delta));
+    transform().position() = transform().position() + _direction * _bulletSpeed * delta.getSecondsFloat();
 
-    auto bulletBounds = getTransform().getBounds();
-    auto bulletPosition = bulletBounds.getPosition();
-    auto bulletSize = bulletBounds.getSize();
+    auto bulletBounds = transform().getBounds();
+    auto bulletPosition = bulletBounds.position();
+    auto bulletSize = bulletBounds.size();
 
-    auto enemyBounds = _enemy->getRenderObject()->getTransform().getBounds();
-    auto enemyPosition = enemyBounds.getPosition();
-    auto enemySize = enemyBounds.getSize();
+    auto enemyBounds = _enemy->getRenderObject()->transform().getBounds();
+    auto enemyPosition = enemyBounds.position();
+    auto enemySize = enemyBounds.size();
 
     if ((enemyPosition.getX() < bulletPosition.getX() + bulletSize.getX()) &&
         (bulletPosition.getX() < enemyPosition.getX() + enemySize.getX()) &&
@@ -39,12 +39,12 @@ namespace TouhouNovelRT::Bullets {
   }
 
   void Bullet::executeObjectBehaviour() {
-    auto& targetTransform = _renderTarget->getTransform();
+    auto& targetTransform = _renderTarget->transform();
     if (_isDirty) {
-      _renderTarget->setLayer(getLayer());
-      targetTransform.setPosition(getTransform().getPosition());
-      targetTransform.setRotation(getTransform().getRotation());
-      targetTransform.setScale(getTransform().getScale());
+      _renderTarget->layer() = layer();
+      targetTransform.position() = transform().position();
+      targetTransform.setRotation(transform().getRotation());
+      targetTransform.setScale(transform().getScale());
     }
 
     _renderTarget->executeObjectBehaviour();
